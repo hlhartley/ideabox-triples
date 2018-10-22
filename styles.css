@@ -107,6 +107,9 @@
   width: 600px;
   margin: auto;
   padding: 20px 0;
+    display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .idea-card {
@@ -147,3 +150,34 @@
   color: #6E646B;
   font-size: 18px;
 }
+
+@media screen and (max-width: 1150px) {
+  .header-container {
+    height: 250px;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 0px;
+  }
+  .h1-idea {
+    margin: 0px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .form-container,
+  .search-container,
+  .idea-card {
+    width: 80%;
+  }
+  .search-bar-input,
+  .cards-container {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .h1-idea {
+    font-size: 10vw;
+  }
+}
+
