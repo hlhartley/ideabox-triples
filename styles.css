@@ -1,0 +1,20 @@
+.header-container {
+  background-color: #322A30;
+  height: 100px;
+}
+.h1-idea {
+  color: #B2A1B1;
+}
+.h1-triples {
+  color: #FFFFFF;
+}
+
+.inputs-container {
+  background-color: #EBF2F2;
+  height: 500px;
+}
+
+.cards-container {
+  background-color: #FBFDFD;
+  height: 500px;
+}
