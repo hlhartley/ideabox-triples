@@ -6,8 +6,10 @@ var saveButton = document.querySelector('.save-btn')
 var titleOutput = document.querySelector('.title-output');
 var bodyOutput = document.querySelector('.body-output');
 
+
 saveButton.addEventListener('click', createCard);
 
 function createCard() {
-  event.preventDefault()
+  event.preventDefault();
+  var newIdea = new Idea(titleInput.value, bodyInput.value);
 }
