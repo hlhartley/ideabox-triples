@@ -9,7 +9,7 @@ class Idea {
   displayCard() {
     var uniqueCardId = Math.floor(Date.now() / 1000);
     var cardsContainer = document.querySelector('.cards-container');
-    var card = document.querySelector('.cards-container').innerHTML = ` <article id="${uniqueCardId}" class="idea-card">
+    var card = `<article id="${uniqueCardId}" class="idea-card">
       <section class="output-container">
         <h1 class="title-output" contenteditable="true">${this.title}</h1> 
         <p class="body-output" contenteditable="true">${this.body}</p>
@@ -25,7 +25,7 @@ class Idea {
         </div>
       </section>
     </article>`;
-    cardsContainer.prepend(card);
+    cardsContainer.innerHTML = cardsContainer.innerHTML + card;
   }
 
   saveToStorage() {
