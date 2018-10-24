@@ -7,6 +7,7 @@ var bodyOutput = document.querySelector('.body-output');
 var cardContainer = document.querySelector('.cards-container');
 
 saveButton.addEventListener('click', createCard);
+cardContainer.addEventListener('click', upvote);
 cardContainer.addEventListener('click', deleteCard);
 
 function createCard(event) {
@@ -21,3 +22,12 @@ function deleteCard(event) {
    event.target.closest('article').remove();
   }
 }
+
+
+function upvote(event) {
+  if (event.target.classList.contains('upvote-btn')) {
+    console.log(event.target.closest('.quality-header'));
+    event.target.nextElementSibling.innerText = "hi";
+  }
+}
+
