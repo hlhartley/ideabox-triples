@@ -9,7 +9,7 @@ class Idea {
   displayCard() {
     var uniqueCardId = Math.floor(Date.now() / 1000);
     var cardsContainer = document.querySelector('.cards-container');
-    var card = `<article id="${uniqueCardId}" class="idea-card">
+    var card = `<article class="div${uniqueCardId} idea-card">
       <section class="output-container">
         <h1 class="title-output" contenteditable="true">${this.title}</h1> 
         <p class="body-output" contenteditable="true">${this.body}</p>
@@ -21,7 +21,7 @@ class Idea {
           <h2 class="quality-header">Quality: <span class=".card-quality">Swill</span></h2>
         </div>
         <div class="right-quality-container">
-        <img class="quality-icons delete-btn" src="images/delete.svg">
+        <button class="${uniqueCardId} quality-icons delete-btn" src="images/delete.svg"></button>
         </div>
       </section>
     </article>`;
