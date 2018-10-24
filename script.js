@@ -4,11 +4,10 @@ var bodyInput = document.querySelector('.body-input');
 var saveButton = document.querySelector('.save-btn');
 var titleOutput = document.querySelector('.title-output');
 var bodyOutput = document.querySelector('.body-output');
-// var deleteButton = document.querySelector('.delete-btn');
-
+var cardContainer = document.querySelector('.cards-container');
 
 saveButton.addEventListener('click', createCard);
-// deleteButton.addEventListener('click', deleteCard);
+cardContainer.addEventListener('click', deleteCard);
 
 function createCard(event) {
   event.preventDefault();
@@ -17,18 +16,8 @@ function createCard(event) {
   uniqueCardId.displayCard();
 }
 
-var cardsContainerDiv = document.querySelector('.cards-container');
-
-cardsContainerDiv.addEventListener('click', function(event) {
-  var classFind = event.target.className.substr(0,10);
-  console.log(classFind);
-  var del = document.querySelector('.div' + classFind);
-  console.log(del);
-  if (event.target.tagName.toLowerCase() === 'button') {
-    console.log('hi');
-    del.remove();
+function deleteCard(event) {
+  if (event.target.classList.contains('delete-btn')) {
+   event.target.closest('article').remove();
   }
-});
-  // var classFind
-//   console.log(event.target.className);
-// } 
+}
