@@ -25,9 +25,21 @@ function deleteCard(event) {
 
 
 function upvote(event) {
+  var qualityStatus = event.target.nextElementSibling.innerText;
   if (event.target.classList.contains('upvote-btn')) {
-    console.log(event.target.closest('.quality-header'));
-    event.target.nextElementSibling.innerText = "hi";
-  }
-}
+    // console.log(event.target.closest('.quality-header'));
 
+
+   if (qualityStatus === 'Quality: Swill') {
+    event.target.nextElementSibling.innerText = 'Quality: Plausible';
+    console.log(event.target.nextElementSibling.innerText);
+   } else if (qualityStatus === 'Quality: Plausible') {
+    event.target.nextElementSibling.innerText = 'Quality: Genius';
+   } else {
+   }
+  //   if (event.target.nextElementSibling.innerText=== swill) {
+
+  //   event.target.nextElementSibling.innerText = "hi";
+  // }
+}
+}
