@@ -19,6 +19,50 @@ function createCard(event) {
 
 }
 
+var locStorage = Object.keys(localStorage);
+// var locStorageLength = localStorage.length;
+
+
+function makeCards() {
+  for (var i=0; i<locStorage.length; i++) {
+    // var newObj = JSON.parse(Object.values(localStorage)[i]);
+    var newCardID = JSON.parse(Object.values(localStorage)[i]).id;
+    var newCardTitle = JSON.parse(Object.values(localStorage)[i]).title;
+    var newCardBody = JSON.parse(Object.values(localStorage)[i]).body;
+    var newCardQuality = JSON.parse(Object.values(localStorage)[i]).quality;
+    displayPulledCard(newCardID, newCardTitle, newCardBody, newCardQuality);
+  }
+}
+
+function displayPulledCard(newCardID, newCardTitle, newCardBody, newCardQuality) {
+
+  var cardsContainer = document.querySelector('.cards-container');
+  var card = `<article id="${newCardID}" class="idea-card">
+  <section class="output-container">
+  <h1 class="title-output" contenteditable="true">${newCardTitle}</h1> 
+  <p class="body-output" contenteditable="true">${newCardBody}</p>
+  </section>
+  <section class="quality-container">
+  <div class="left-quality-container">
+  <img class="quality-icons downvote-btn" src="images/downvote.svg">
+  <img class="quality-icons upvote-btn" src="images/upvote.svg">
+  <h2 class="quality-header">${newCardQuality}</h2>
+  </div>
+  <div class="right-quality-container">
+  <img class="quality-icons delete-btn" src="images/delete.svg">
+  </div>
+  </section>
+  </article>`;
+  cardsContainer.innerHTML = cardsContainer.innerHTML + card;
+
+}
+
+
+makeCards();
+
+
+
+
 function displayCard(idea) {
   var uniqueCardId = Math.floor(Date.now() / 1000);
   var cardsContainer = document.querySelector('.cards-container');
@@ -39,6 +83,7 @@ function displayCard(idea) {
   </section>
   </article>`;
   cardsContainer.innerHTML = cardsContainer.innerHTML + card;
+
   idea.saveToStorage();
 }
 
