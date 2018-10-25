@@ -4,12 +4,10 @@ class Idea {
     this.title = title;
     this.body = body;
     this.quality = 'swill';
-    console.log(this.body);
-    console.log(this.title);
   }
 
- saveToStorage() {
-    console.log(this);
+  saveToStorage() {
+
   }
 
 
