@@ -18,7 +18,7 @@ class Idea {
         <div class="left-quality-container">
           <img class="quality-icons downvote-btn" src="images/downvote.svg">
           <img class="quality-icons upvote-btn" src="images/upvote.svg">
-          <h2 class="quality-header">Quality: <span class=".card-quality">Swill</span></h2>
+          <h2 class="quality-header">Quality: Swill</h2>
         </div>
         <div class="right-quality-container">
         <img class="quality-icons delete-btn" src="images/delete.svg">
