@@ -3,7 +3,7 @@ class Idea {
     this.id = Math.floor(Date.now() / 1000); 
     this.title = title;
     this.body = body;
-    this.quality = 'swill';
+    this.quality = 'Swill';
   }
 
   saveToStorage() {
@@ -20,6 +20,7 @@ class Idea {
   }
 
   updateQuality() {
+    console.log('hi');
     // clicking up/down vote buttons will update quality
   }
 }
