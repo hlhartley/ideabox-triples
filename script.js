@@ -6,13 +6,17 @@ var titleOutput = document.querySelector('.title-output');
 var bodyOutput = document.querySelector('.body-output');
 var cardContainer = document.querySelector('.cards-container');
 
-
+saveButton.addEventListener('click', createCard);
+// cardContainer.addEventListener('click', upvote);
+// cardContainer.addEventListener('click', downvote);
+// cardContainer.addEventListener('click', deleteCard);
 cardContainer.addEventListener('click', cardButtonPushed);
 
 function createCard(event) {
   event.preventDefault();
   var idea = new Idea(titleInput.value, bodyInput.value);
   displayCard(idea);
+  // uniqueCardId.saveToStorage(uniqueCardId, titleInput.value, bodyInput);
 }
 
 var localStorageObjects = Object.keys(localStorage);
@@ -75,6 +79,45 @@ function makeCards() {
     idea.saveToStorage();
   }
 
+// function deleteCard(event, idea) {
+//   if (event.target.classList.contains('delete-btn')) {
+//    event.target.closest('article').remove();
+//    var cardToDeleteId = event.target.closest('article').id;
+//    Idea.prototype.deleteFromStorage(cardToDeleteId);
+//  }
+// }
+
+// function upvote(event) {
+
+//   if (event.target.classList.contains('upvote-btn')) {
+//       // var qualityStatus = event.target.nextElementSibling.innerText;
+//       var qualityStatus = event.target.parentElement.childNodes[5].firstElementChild.innerText;
+//       // debugger
+//    if (qualityStatus === 'Swill') {
+//     event.target.parentElement.childNodes[5].firstElementChild.innerText = 'Plausible';
+//   } else if (qualityStatus === 'Plausible') {
+//     event.target.parentElement.childNodes[5].firstElementChild.innerText = 'Genius';
+//   } else {
+//   }
+// }
+// }
+
+// function downvote(event) {
+
+//   if (event.target.classList.contains('downvote-btn')) {
+//     var qualityStatus = event.target.parentElement.childNodes[5].firstElementChild.innerText;
+//     // debugger
+//    if (qualityStatus === 'Plausible') {
+//     event.target.parentElement.childNodes[5].firstElementChild.innerText = 'Swill';
+//   } else if (qualityStatus === 'Genius') {
+//     event.target.parentElement.childNodes[5].firstElementChild.innerText = 'Plausible';
+//   } else {
+//   }
+// }
+// }
+
+
+// REFACTOR IN PROGRESS
 
 function cardButtonPushed() {
   checkDeleteButton();
