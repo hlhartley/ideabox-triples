@@ -19,9 +19,12 @@ class Idea {
     // after modifying card it will save to local storage
   }
 
-  updateQuality() {
-    console.log('hi');
-    // clicking up/down vote buttons will update quality
+  updateQuality(cardIdOfButton, newQualityStatus) {
+    var cardToUpdateQuality = localStorage.getItem(cardIdOfButton);
+    var parsedQuality = JSON.parse(cardToUpdateQuality);
+    parsedQuality.quality = newQualityStatus;
+    localStorage.setItem(cardIdOfButton, JSON.stringify(parsedQuality));
+    // console.log('hi');
   }
 }
 
