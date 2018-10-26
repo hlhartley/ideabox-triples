@@ -6,87 +6,82 @@ var titleOutput = document.querySelector('.title-output');
 var bodyOutput = document.querySelector('.body-output');
 var cardContainer = document.querySelector('.cards-container');
 
-saveButton.addEventListener('click', createCard);
-cardContainer.addEventListener('click', upvote);
-cardContainer.addEventListener('click', downvote);
-cardContainer.addEventListener('click', deleteCard);
+
+cardContainer.addEventListener('click', cardButtonPushed);
 
 function createCard(event) {
   event.preventDefault();
   var idea = new Idea(titleInput.value, bodyInput.value);
   displayCard(idea);
-  // uniqueCardId.saveToStorage(uniqueCardId, titleInput.value, bodyInput);
 }
 
-var locStorage = Object.keys(localStorage);
-// var locStorageLength = localStorage.length;
-
+var localStorageObjects = Object.keys(localStorage);
 
 function makeCards() {
-  for (var i=0; i<locStorage.length; i++) {
-    // var newObj = JSON.parse(Object.values(localStorage)[i]);
-    var newCardID = JSON.parse(Object.values(localStorage)[i]).id;
-    var newCardTitle = JSON.parse(Object.values(localStorage)[i]).title;
-    var newCardBody = JSON.parse(Object.values(localStorage)[i]).body;
-    var newCardQuality = JSON.parse(Object.values(localStorage)[i]).quality;
-    displayPulledCard(newCardID, newCardTitle, newCardBody, newCardQuality);
+  localStorageObjects.forEach(function(localObject, i) {
+    var objectValue = JSON.parse(Object.values(localStorage)[i]);
+    displayPulledCard(objectValue.id, objectValue.title, objectValue.body, objectValue.quality);
+  })
+}
+
+
+  function displayPulledCard(newCardID, newCardTitle, newCardBody, newCardQuality) {
+
+    var cardsContainer = document.querySelector('.cards-container');
+    var card = `<article id="${newCardID}" class="idea-card">
+    <section class="output-container">
+    <h1 class="title-output" contenteditable="true">${newCardTitle}</h1> 
+    <p class="body-output" contenteditable="true">${newCardBody}</p>
+    </section>
+    <section class="quality-container">
+    <div class="left-quality-container">
+    <img class="quality-icons downvote-btn" src="images/downvote.svg">
+    <img class="quality-icons upvote-btn" src="images/upvote.svg">
+    <h2 class="quality-header">Quality: <span class="quality-actual">${newCardQuality}<span></h2>
+    </div>
+    <div class="right-quality-container">
+    <img class="quality-icons delete-btn" src="images/delete.svg">
+    </div>
+    </section>
+    </article>`;
+    cardsContainer.innerHTML = cardsContainer.innerHTML + card;
+
   }
+
+
+  makeCards();
+
+  function displayCard(idea) {
+    var uniqueCardId = Math.floor(Date.now() / 1000);
+    var cardsContainer = document.querySelector('.cards-container');
+    var card = `<article id="${idea.id}" class="idea-card">
+    <section class="output-container">
+    <h1 class="title-output" contenteditable="true">${idea.title}</h1> 
+    <p class="body-output" contenteditable="true">${idea.body}</p>
+    </section>
+    <section class="quality-container">
+    <div class="left-quality-container">
+    <img class="quality-icons downvote-btn" src="images/downvote.svg">
+    <img class="quality-icons upvote-btn" src="images/upvote.svg">
+    <h2 class="quality-header">Quality: <span class="quality-actual">${idea.quality}<span></h2>
+    </div>
+    <div class="right-quality-container">
+    <img class="quality-icons delete-btn" src="images/delete.svg">
+    </div>
+    </section>
+    </article>`;
+    cardsContainer.innerHTML = cardsContainer.innerHTML + card;
+
+    idea.saveToStorage();
+  }
+
+
+function cardButtonPushed() {
+  checkDeleteButton();
+  checkVoteButton();
 }
 
-function displayPulledCard(newCardID, newCardTitle, newCardBody, newCardQuality) {
-
-  var cardsContainer = document.querySelector('.cards-container');
-  var card = `<article id="${newCardID}" class="idea-card">
-  <section class="output-container">
-  <h1 class="title-output" contenteditable="true">${newCardTitle}</h1> 
-  <p class="body-output" contenteditable="true">${newCardBody}</p>
-  </section>
-  <section class="quality-container">
-  <div class="left-quality-container">
-  <img class="quality-icons downvote-btn" src="images/downvote.svg">
-  <img class="quality-icons upvote-btn" src="images/upvote.svg">
-  <h2 class="quality-header">${newCardQuality}</h2>
-  </div>
-  <div class="right-quality-container">
-  <img class="quality-icons delete-btn" src="images/delete.svg">
-  </div>
-  </section>
-  </article>`;
-  cardsContainer.innerHTML = cardsContainer.innerHTML + card;
-
-}
-
-
-makeCards();
-
-
-
-
-function displayCard(idea) {
-  var uniqueCardId = Math.floor(Date.now() / 1000);
-  var cardsContainer = document.querySelector('.cards-container');
-  var card = `<article id="${idea.id}" class="idea-card">
-  <section class="output-container">
-  <h1 class="title-output" contenteditable="true">${idea.title}</h1> 
-  <p class="body-output" contenteditable="true">${idea.body}</p>
-  </section>
-  <section class="quality-container">
-  <div class="left-quality-container">
-  <img class="quality-icons downvote-btn" src="images/downvote.svg">
-  <img class="quality-icons upvote-btn" src="images/upvote.svg">
-  <h2 class="quality-header">Quality: Swill</h2>
-  </div>
-  <div class="right-quality-container">
-  <img class="quality-icons delete-btn" src="images/delete.svg">
-  </div>
-  </section>
-  </article>`;
-  cardsContainer.innerHTML = cardsContainer.innerHTML + card;
-
-  idea.saveToStorage();
-}
-
-function deleteCard(event, idea) {
+function checkDeleteButton() {
   if (event.target.classList.contains('delete-btn')) {
    event.target.closest('article').remove();
    var cardToDeleteId = event.target.closest('article').id;
@@ -94,26 +89,31 @@ function deleteCard(event, idea) {
  }
 }
 
-function upvote(event) {
-  var qualityStatus = event.target.nextElementSibling.innerText;
+var incrementor = 0;
+
+function checkUpOrDown() {
   if (event.target.classList.contains('upvote-btn')) {
-   if (qualityStatus === 'Quality: Swill') {
-    event.target.nextElementSibling.innerText = 'Quality: Plausible';
-  } else if (qualityStatus === 'Quality: Plausible') {
-    event.target.nextElementSibling.innerText = 'Quality: Genius';
-  } else {
-  }
-}
+    incrementor = 1;
+    return true;
+  } else if (event.target.classList.contains('downvote-btn')) {
+    incrementor = -1;
+    return true;
+  } 
 }
 
-function downvote(event) {
-  var qualityStatus = event.target.nextElementSibling.nextElementSibling.innerText;
-  if (event.target.classList.contains('downvote-btn')) {
-   if (qualityStatus === 'Quality: Plausible') {
-    event.target.nextElementSibling.nextElementSibling.innerText = 'Quality: Swill';
-  } else if (qualityStatus === 'Quality: Genius') {
-    event.target.nextElementSibling.nextElementSibling.innerText = 'Quality: Plausible';
-  } else {
+var qualityList = ['Swill','Plausible','Genius'];
+
+function checkVoteButton() {
+  checkUpOrDown();
+  console.log(checkUpOrDown());
+  if (checkUpOrDown() === true) {
+    var qualityStatus = event.target.parentElement.childNodes[5].firstElementChild.innerText;
+    var qualityListMatch = qualityList.indexOf(qualityStatus);
+    if (qualityList[qualityListMatch + incrementor] !== undefined) {
+      var newQualityStatus = qualityList[qualityListMatch + incrementor];
+      event.target.parentElement.childNodes[5].firstElementChild.innerText = newQualityStatus;
+      Idea.prototype.updateQuality();
+    } 
   }
 }
-}
+
