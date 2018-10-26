@@ -11,8 +11,8 @@ class Idea {
   }
 
 
-  deleteFromStorage() {
-    // delete from local storage
+  deleteFromStorage(cardToDeleteId) {
+    localStorage.removeItem(cardToDeleteId);
   }
 
   updateSelf() {

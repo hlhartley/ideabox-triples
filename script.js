@@ -86,9 +86,11 @@ function displayCard(idea) {
   idea.saveToStorage();
 }
 
-function deleteCard(event) {
+function deleteCard(event, idea) {
   if (event.target.classList.contains('delete-btn')) {
    event.target.closest('article').remove();
+   var cardToDeleteId = event.target.closest('article').id;
+   Idea.prototype.deleteFromStorage(cardToDeleteId);
  }
 }
 
