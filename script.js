@@ -6,7 +6,12 @@ var titleOutput = document.querySelector('.title-output');
 var bodyOutput = document.querySelector('.body-output');
 var cardContainer = document.querySelector('.cards-container');
 var qualityList = ['Swill','Plausible','Genius'];
+var searchBarInput = document.querySelector('.search-bar-input');
+var incrementor = 0;
+// var ideaArray = [];
+// var ideaArray = document.querySelector('.cards-container');
 
+searchBarInput.addEventListener('keyup', filterSearch);
 saveButton.addEventListener('click', createCard);
 cardContainer.addEventListener('click', cardButtonPushed);
 titleInput && bodyInput.addEventListener('keyup', enableButtons);
@@ -19,6 +24,7 @@ function createCard(event) {
   idea.saveToStorage();
   clearInputs();
   enableButtons();
+  updateIdeaArray();
 }
 
 var localStorageObjects = Object.keys(localStorage);
@@ -31,6 +37,7 @@ function makeCards() {
 }
 
 makeCards();
+updateIdeaArray();
 
 function createTemplateLiteral(id, title, body, quality) {
   var cardsContainer = document.querySelector('.cards-container');
@@ -62,10 +69,10 @@ function checkDeleteButton() {
    event.target.closest('article').remove();
    var cardToDeleteId = event.target.closest('article').id;
    Idea.prototype.deleteFromStorage(cardToDeleteId);
+   updateIdeaArray();
  }
 }
 
-var incrementor = 0;
 
 function vote(type) {
   var ideaID = event.target.dataset.ideaid;
@@ -95,6 +102,24 @@ function enableButtons() {
 
 function clearInputs() {
   titleInput.value = '';
-  bodyInput.value = '';}
+  bodyInput.value = '';
+}
 
 
+function updateIdeaArray(){
+  return document.getElementsByClassName('idea-card');
+}
+
+
+function filterSearch() {
+  var filterInput = searchBarInput.value.toLowerCase();
+  var ideaArray = updateIdeaArray();
+  for (var i = 0; i < ideaArray.length; i++) {  
+    if(ideaArray[i].childNodes[1].childNodes[1].innerText.toLowerCase().indexOf(filterInput) === -1 
+      && ideaArray[i].childNodes[1].childNodes[3].innerText.toLowerCase().indexOf(filterInput) === -1) {
+      ideaArray[i].setAttribute("style", "display: none");
+      } else {
+      ideaArray[i].setAttribute("style", "display: block");
+    } 
+  }
+}
