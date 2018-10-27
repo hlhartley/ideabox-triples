@@ -51,33 +51,54 @@ function makeCards() {
 
   makeCards();
 
-  function displayCard(idea) {
-    var uniqueCardId = Math.floor(Date.now() / 1000);
-    var cardsContainer = document.querySelector('.cards-container');
-    var card = `<article id="${idea.id}" class="idea-card">
-    <section class="output-container">
-    <h1 class="title-output" contenteditable="true">${idea.title}</h1> 
-    <p class="body-output" contenteditable="true">${idea.body}</p>
-    </section>
-    <section class="quality-container">
-    <div class="left-quality-container">
-    <img class="quality-icons downvote-btn" src="images/downvote.svg">
-    <img class="quality-icons upvote-btn" src="images/upvote.svg">
-    <h2 class="quality-header">Quality: <span class="quality-actual">${idea.quality}<span></h2>
-    </div>
-    <div class="right-quality-container">
-    <img class="quality-icons delete-btn" src="images/delete.svg">
-    </div>
-    </section>
-    </article>`;
-    cardsContainer.innerHTML = cardsContainer.innerHTML + card;
+function displayCard(idea) {
+  var uniqueCardId = Math.floor(Date.now() / 1000);
+  var cardsContainer = document.querySelector('.cards-container');
+  var card = `<article id="${idea.id}" class="idea-card">
+  <section class="output-container">
+  <h1 class="title-output" contenteditable="true">${idea.title}</h1> 
+  <p class="body-output" contenteditable="true">${idea.body}</p>
+  </section>
+  <section class="quality-container">
+  <div class="left-quality-container">
+  <img onclick="vote('down')" data-ideaID="${idea.id}" class="quality-icons downvote-btn" src="images/downvote.svg">
+  <img onclick="vote('up')" data-ideaID="${idea.id}" class="quality-icons upvote-btn" src="images/upvote.svg">
+  <h2 class="quality-header">Quality: <span class="quality-actual">${idea.quality}<span></h2>
+  </div>
+  <div class="right-quality-container">
+  <img class="quality-icons delete-btn" src="images/delete.svg">
+  </div>
+  </section>
+  </article>`;
+  cardsContainer.innerHTML = cardsContainer.innerHTML + card;
 
-    idea.saveToStorage();
+  idea.saveToStorage();
+}
+
+function vote(type) {
+  const ideaID = event.target.dataset.ideaid;
+  const idea = JSON.parse(localStorage.getItem(ideaID));
+  const qualityIndex = qualityList.indexOf(idea.quality);
+  let output;
+  let newQuality;
+
+  if (type ==='up') {
+    newQuality = qualityIndex === qualityList.length-1 ? qualityList[qualityList.length-1] : qualityList[qualityIndex + 1];
+    output = event.target.nextElementSibling;  
+  } else if (type === 'down') {
+    newQuality = qualityIndex === 0 ? qualityList[0] : qualityList[qualityIndex - 1];
+    output = event.target.nextElementSibling.nextElementSibling;  
   }
+
+  output.innerText = 'Quality:' + newQuality;
+  idea.quality = newQuality;
+  
+  localStorage.setItem(ideaID, JSON.stringify(idea));
+}
 
 function cardButtonPushed() {
   checkDeleteButton();
-  checkVoteButton();
+  // checkVoteButton();
 }
 
 function checkDeleteButton() {
