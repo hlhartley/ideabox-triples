@@ -29,7 +29,7 @@
 }
 
 .search-container {
-  width: 600px;
+  width: 460px;
   display: flex;
   align-items: center;
 }
@@ -49,6 +49,7 @@
   height: 42px;
   width: 560px;
   border: 2px solid #C2C1C0;
+  outline: none;
 }
 
 .fas {
@@ -78,6 +79,9 @@
   height: 42px; 
   border-radius: 6px;
   border: 2px solid #C2C1C0;
+  font-size: 1.5em;
+  color: #6E646B;
+  outline-color: #322A30;
 }
 
 .title {
@@ -87,6 +91,7 @@
 .body-input {
   padding-right: 20px;
   height: 126px;
+  resize: none;
 }
 
 .form-labels {
@@ -104,13 +109,21 @@
   font-weight: 800; 
 }
 
+.save-btn:hover {
+  background-color:#524649; 
+}
+
+.save-btn:disabled {
+  background-color: #C2C1C0;
+}
+
 /*cards*/
 .cards-container {
   background-color: #FBFDFD;
   width: 600px;
   margin: auto;
   padding: 20px 0;
-    display: flex;
+  display: flex;
   align-items: center;
   flex-direction: column;
 }
@@ -118,6 +131,8 @@
 .idea-card {
   border: 2px solid #C2C1C0;
   border-radius: 6px;
+  width: 600px;
+  margin-bottom: 10px;
 }
 
 .title-output {
@@ -127,6 +142,7 @@
 
 .quality-icons {
   width: 25px;
+  margin-right: 10px;
 }
 
 .quality-container {
@@ -140,8 +156,7 @@
 .left-quality-container {
   align-items: center;
   display: flex;
-  width: 200px;
-  justify-content: space-between;
+  width: 240px;
 }
 
 .output-container {
@@ -164,9 +179,13 @@
   .h1-idea {
     margin: 0px;
   }
+  .form-container,
+  .idea-card  {
+    width: 460px;
+  }
 }
 
-@media screen and (max-width: 740px) {
+@media screen and (max-width: 600px) {
   .form-container,
   .search-container,
   .idea-card {

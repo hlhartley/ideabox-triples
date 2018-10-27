@@ -9,12 +9,16 @@ var qualityList = ['Swill','Plausible','Genius'];
 
 saveButton.addEventListener('click', createCard);
 cardContainer.addEventListener('click', cardButtonPushed);
+titleInput && bodyInput.addEventListener('keyup', enableButtons);
+
 
 function createCard(event) {
   event.preventDefault();
   var idea = new Idea(titleInput.value, bodyInput.value);
   createTemplateLiteral(idea.id, idea.title, idea.body, idea.quality);
   idea.saveToStorage();
+  clearInputs();
+  enableButtons();
 }
 
 var localStorageObjects = Object.keys(localStorage);
@@ -81,6 +85,16 @@ function vote(type) {
 }
 
 
+function enableButtons() {
+   if (titleInput.value === '' || bodyInput.value === ''){
+    saveButton.disabled = true;
+  } else {
+    saveButton.disabled = false;
+  }
+}
 
+function clearInputs() {
+  titleInput.value = '';
+  bodyInput.value = '';}
 
 
