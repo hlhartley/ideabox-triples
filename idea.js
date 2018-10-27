@@ -19,13 +19,14 @@ class Idea {
     // after modifying card it will save to local storage
   }
 
-  updateQuality(cardIdOfButton, newQualityStatus) {
-    var cardToUpdateQuality = localStorage.getItem(cardIdOfButton);
-    var parsedQuality = JSON.parse(cardToUpdateQuality);
-    parsedQuality.quality = newQualityStatus;
-    localStorage.setItem(cardIdOfButton, JSON.stringify(parsedQuality));
-    // console.log('hi');
+  updateQuality(ideaID, newQuality) {
+    // var cardToUpdateQuality = localStorage.getItem(cardIdOfButton);
+    // var parsedQuality = JSON.parse(cardToUpdateQuality);
+    // parsedQuality.quality = newQualityStatus;
+    // localStorage.setItem(cardIdOfButton, JSON.stringify(parsedQuality));
+    var idea = JSON.parse(localStorage.getItem(ideaID));
+    idea.quality = newQuality;
+    localStorage.setItem(ideaID, JSON.stringify(idea));
   }
 }
 
-// module.exports = Idea;
