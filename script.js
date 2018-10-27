@@ -5,17 +5,15 @@ var saveButton = document.querySelector('.save-btn');
 var titleOutput = document.querySelector('.title-output');
 var bodyOutput = document.querySelector('.body-output');
 var cardContainer = document.querySelector('.cards-container');
-var qualityList = ['Swill','Plausible','Genius'];
+var qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
 var searchBarInput = document.querySelector('.search-bar-input');
 var incrementor = 0;
-// var ideaArray = [];
-// var ideaArray = document.querySelector('.cards-container');
+var localStorageObjects = Object.keys(localStorage);
 
 searchBarInput.addEventListener('keyup', filterSearch);
 saveButton.addEventListener('click', createCard);
 cardContainer.addEventListener('click', cardButtonPushed);
 titleInput && bodyInput.addEventListener('keyup', enableButtons);
-
 
 function createCard(event) {
   event.preventDefault();
@@ -26,8 +24,6 @@ function createCard(event) {
   enableButtons();
   updateIdeaArray();
 }
-
-var localStorageObjects = Object.keys(localStorage);
 
 function makeCards() {
   localStorageObjects.forEach(function(localObject, i) {
@@ -73,7 +69,6 @@ function checkDeleteButton() {
  }
 }
 
-
 function vote(type) {
   var ideaID = event.target.dataset.ideaid;
   var qualityStatus = event.target.parentElement.childNodes[5].firstElementChild.innerText;
@@ -91,7 +86,6 @@ function vote(type) {
   Idea.prototype.updateQuality(ideaID, newQuality);
 }
 
-
 function enableButtons() {
    if (titleInput.value === '' || bodyInput.value === ''){
     saveButton.disabled = true;
@@ -105,11 +99,9 @@ function clearInputs() {
   bodyInput.value = '';
 }
 
-
 function updateIdeaArray(){
   return document.getElementsByClassName('idea-card');
 }
-
 
 function filterSearch() {
   var filterInput = searchBarInput.value.toLowerCase();
