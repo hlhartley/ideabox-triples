@@ -11,39 +11,36 @@ var body = document.querySelector('body');
 var incrementor = 0;
 var localStorageObjects = Object.keys(localStorage);
 
-
 searchBarInput.addEventListener('keyup', filterSearch);
 saveButton.addEventListener('click', createCard);
 cardContainer.addEventListener('click', cardButtonPushed);
 titleInput && bodyInput.addEventListener('keyup', enableButtons);
 cardContainer.addEventListener('change', saveTitleBody);
 
-function checkEnterKey(event) {
-  if(event.keyCode === 13) {
-    console.log('bob');
-    saveTitleBody();
-  }
+function checkEnterKey(type) {
+
+  var key = event.keyCode;
+    if (key === 13) { 
+      event.preventDefault();
+      saveTitleBody(type);
+    }
 }
+
 function saveTitleBody(text) {
 
  if (text === 'title') {
-
   var changedElement = 'title';
   var changedTextID = event.target.dataset.titleid;
   var changedTextValue = event.target.innerText;
  } else if (text === 'body') {
-
   var changedElement = 'body';
-
   var changedTextID = event.target.dataset.bodyid;
   var changedTextValue = event.target.innerText;
  }
 Idea.prototype.updateSelf(changedElement, changedTextID, changedTextValue);
 }
 
-
-
-function createCard(event) {
+function createCard() {
   event.preventDefault();
   var idea = new Idea(titleInput.value, bodyInput.value);
   createTemplateLiteral(idea.id, idea.title, idea.body, idea.quality);
@@ -67,8 +64,8 @@ function createTemplateLiteral(id, title, body, quality) {
   var cardsContainer = document.querySelector('.cards-container');
   var card = `<article id="${id}" class="idea-card">
   <section class="output-container">
-  <h1 onkeyup="checkEnterKey('title')" onfocusout="saveTitleBody('title')" data-titleID="${id}" class="title-output" contenteditable="true">${title}</h1> 
-  <p onkeyup="checkEnterKey('body')" onfocusout="saveTitleBody('body')" data-bodyID="${id}" class="body-output" contenteditable="true">${body}</p>
+  <h1 onkeydown="checkEnterKey('title')" onfocusout="saveTitleBody('title')" data-titleID="${id}" class="title-output" contenteditable="true">${title}</h1> 
+  <p onkeydown="checkEnterKey('body')" onfocusout="saveTitleBody('body')" data-bodyID="${id}" class="body-output" contenteditable="true">${body}</p>
   </section>
   <section class="quality-container">
   <div class="left-quality-container">
