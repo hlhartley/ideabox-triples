@@ -15,15 +15,17 @@ class Idea {
     localStorage.removeItem(cardToDeleteId);
   }
 
-  updateSelf() {
-    // after modifying card it will save to local storage
-  }
+  updateSelf(changedElement, changedTextID, text) {
+   var idea = JSON.parse(localStorage.getItem(changedTextID));
+   if (changedElement === 'title') {
+    idea.title = text;
+  } else if (changedElement === 'body') {
+    idea.body = text;
+  } 
+  localStorage.setItem(changedTextID, JSON.stringify(idea));
+}
 
   updateQuality(ideaID, newQuality) {
-    // var cardToUpdateQuality = localStorage.getItem(cardIdOfButton);
-    // var parsedQuality = JSON.parse(cardToUpdateQuality);
-    // parsedQuality.quality = newQualityStatus;
-    // localStorage.setItem(cardIdOfButton, JSON.stringify(parsedQuality));
     var idea = JSON.parse(localStorage.getItem(ideaID));
     idea.quality = newQuality;
     localStorage.setItem(ideaID, JSON.stringify(idea));

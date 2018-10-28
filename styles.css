@@ -6,6 +6,9 @@
   margin: 0px;
 }
 
+.dummy {
+  display: none;
+}
 /*header*/
 .header-container {
   background-color: #322A30;
