@@ -4,73 +4,69 @@ var bodyInput = document.querySelector('.body-input');
 var saveButton = document.querySelector('.save-btn');
 var titleOutput = document.querySelector('.title-output');
 var bodyOutput = document.querySelector('.body-output');
-var cardContainer = document.querySelector('.cards-container');
+var cardsContainer = document.querySelector('.cards-container');
 var qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
 var searchBarInput = document.querySelector('.search-bar-input');
-var body = document.querySelector('body');
-var incrementor = 0;
 var localStorageObjects = Object.keys(localStorage);
 
 searchBarInput.addEventListener('keyup', filterSearch);
-saveButton.addEventListener('click', createCard);
-cardContainer.addEventListener('click', cardButtonPushed);
-titleInput && bodyInput.addEventListener('keyup', enableButtons);
-cardContainer.addEventListener('change', saveTitleBody);
+saveButton.addEventListener('click', createInitialCard);
+cardsContainer.addEventListener('click', checkDeleteButton);
+titleInput && bodyInput.addEventListener('keyup', disableSaveButton);
+cardsContainer.addEventListener('change', saveUserInput);
 
 function checkEnterKey(type) {
-
   var key = event.keyCode;
-    if (key === 13) { 
-      event.preventDefault();
-      saveTitleBody(type);
-    }
+  if (key === 13) { 
+    event.preventDefault();
+    saveUserInput(type);
+  }
 }
 
-function saveTitleBody(text) {
-
- if (text === 'title') {
-  var changedElement = 'title';
-  var changedTextID = event.target.dataset.titleid;
-  var changedTextValue = event.target.innerText;
- } else if (text === 'body') {
-  var changedElement = 'body';
-  var changedTextID = event.target.dataset.bodyid;
-  var changedTextValue = event.target.innerText;
- }
-Idea.prototype.updateSelf(changedElement, changedTextID, changedTextValue);
+function saveUserInput(text) {
+  if (text === 'title') {
+    var changedElement = 'title';
+    var changedTextID = event.target.dataset.titleid;
+    var changedTextValue = event.target.innerText;
+  } else if (text === 'body') {
+    var changedElement = 'body';
+    var changedTextID = event.target.dataset.bodyid;
+    var changedTextValue = event.target.innerText;
+  }
+  Idea.prototype.updateSelf(changedElement, changedTextID, changedTextValue);
 }
 
-function createCard() {
+function createInitialCard() {
   event.preventDefault();
   var idea = new Idea(titleInput.value, bodyInput.value);
-  createTemplateLiteral(idea.id, idea.title, idea.body, idea.quality);
+  createCardTemplate(idea.id, idea.title, idea.body, idea.quality);
   idea.saveToStorage();
   clearInputs();
-  enableButtons();
+  disableSaveButton();
   updateIdeaArray();
 }
 
-function makeCards() {
+function reinitializeCardsOnReload() {
   localStorageObjects.forEach(function(localObject, index) {
     var objectValue = JSON.parse(Object.values(localStorage)[index]);
-    createTemplateLiteral(objectValue.id, objectValue.title, objectValue.body, objectValue.quality);
+    createCardTemplate(objectValue.id, objectValue.title, objectValue.body, objectValue.quality);
   })
 }
 
-makeCards();
+reinitializeCardsOnReload();
 updateIdeaArray();
 
-function createTemplateLiteral(id, title, body, quality) {
+function createCardTemplate(id, title, body, quality) {
   var cardsContainer = document.querySelector('.cards-container');
-  var card = `<article id="${id}" class="idea-card">
+  var newCard = `<article id="${id}" class="idea-card">
   <section class="output-container">
-  <h1 onkeydown="checkEnterKey('title')" onfocusout="saveTitleBody('title')" data-titleID="${id}" class="title-output" contenteditable="true">${title}</h1> 
-  <p onkeydown="checkEnterKey('body')" onfocusout="saveTitleBody('body')" data-bodyID="${id}" class="body-output" contenteditable="true">${body}</p>
+  <h1 onkeydown="checkEnterKey('title')" onfocusout="saveUserInput('title')" data-titleID="${id}" class="title-output" contenteditable="true">${title}</h1> 
+  <p onkeydown="checkEnterKey('body')" onfocusout="saveUserInput('body')" data-bodyID="${id}" class="body-output" contenteditable="true">${body}</p>
   </section>
   <section class="quality-container">
   <div class="left-quality-container">
-  <img onclick="vote('down')" data-ideaID="${id}" class="quality-icons downvote-btn" src="images/downvote.svg">
-  <img onclick="vote('up')" data-ideaID="${id}" class="quality-icons upvote-btn" src="images/upvote.svg">
+  <img onclick="updateVote('down')" data-ideaID="${id}" class="quality-icons downvote-btn" src="images/downvote.svg">
+  <img onclick="updateVote('up')" data-ideaID="${id}" class="quality-icons upvote-btn" src="images/upvote.svg">
   <h2 class="quality-header">Quality: <span class="quality-actual">${quality}<span></h2>
   </div>
   <div class="right-quality-container">
@@ -78,11 +74,7 @@ function createTemplateLiteral(id, title, body, quality) {
   </div>
   </section>
   </article>`;
-  cardsContainer.innerHTML = cardsContainer.innerHTML + card;
-}
-
-function cardButtonPushed() {
-  checkDeleteButton();
+  cardsContainer.innerHTML = cardsContainer.innerHTML + newCard;
 }
 
 function checkDeleteButton() {
@@ -94,7 +86,7 @@ function checkDeleteButton() {
  }
 }
 
-function vote(type) {
+function updateVote(type) {
   var ideaID = event.target.dataset.ideaid;
   var qualityStatus = event.target.parentElement.childNodes[5].firstElementChild.innerText;
   var qualityIndex = qualityList.indexOf(qualityStatus);
@@ -111,7 +103,7 @@ function vote(type) {
   Idea.prototype.updateQuality(ideaID, newQuality);
 }
 
-function enableButtons() {
+function disableSaveButton() {
    if (titleInput.value === '' || bodyInput.value === ''){
     saveButton.disabled = true;
   } else {
