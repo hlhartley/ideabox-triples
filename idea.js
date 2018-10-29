@@ -3,7 +3,7 @@ class Idea {
     this.id = Math.floor(Date.now() / 1000); 
     this.title = title;
     this.body = body;
-    this.quality = 'Swill';
+    this.quality = 1;
   }
 
   saveToStorage() {
@@ -25,9 +25,9 @@ class Idea {
   localStorage.setItem(changedTextID, JSON.stringify(idea));
 }
 
-  updateQuality(ideaID, newQuality) {
+  updateQuality(ideaID, newQualityIndex) {
     var idea = JSON.parse(localStorage.getItem(ideaID));
-    idea.quality = newQuality;
+    idea.quality = newQualityIndex;
     localStorage.setItem(ideaID, JSON.stringify(idea));
   }
 }

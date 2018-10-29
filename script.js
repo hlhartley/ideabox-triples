@@ -5,7 +5,7 @@ var saveButton = document.querySelector('.save-btn');
 var titleOutput = document.querySelector('.title-output');
 var bodyOutput = document.querySelector('.body-output');
 var cardsContainer = document.querySelector('.cards-container');
-var qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
+
 var searchBarInput = document.querySelector('.search-bar-input');
 var localStorageObjects = Object.keys(localStorage);
 
@@ -57,7 +57,9 @@ reinitializeCardsOnReload();
 updateIdeaArray();
 
 function createCardTemplate(id, title, body, quality) {
+  var qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
   var cardsContainer = document.querySelector('.cards-container');
+  var stringQuality = qualityList[quality];
   var newCard = `<article id="${id}" class="idea-card">
   <section class="output-container">
   <h1 onkeydown="checkEnterKey('title')" onfocusout="saveUserInput('title')" data-titleID="${id}" class="title-output" contenteditable="true">${title}</h1> 
@@ -67,7 +69,7 @@ function createCardTemplate(id, title, body, quality) {
   <div class="left-quality-container">
   <img onclick="updateVote('down')" data-ideaID="${id}" class="quality-icons downvote-btn" src="images/downvote.svg">
   <img onclick="updateVote('up')" data-ideaID="${id}" class="quality-icons upvote-btn" src="images/upvote.svg">
-  <h2 class="quality-header">Quality: <span class="quality-actual">${quality}<span></h2>
+  <h2 class="quality-header">Quality: <span class="quality-actual">${stringQuality}<span></h2>
   </div>
   <div class="right-quality-container">
   <img class="quality-icons delete-btn" src="images/delete.svg">
@@ -87,20 +89,24 @@ function checkDeleteButton() {
 }
 
 function updateVote(type) {
+  var qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
   var ideaID = event.target.dataset.ideaid;
   var qualityStatus = event.target.parentElement.childNodes[5].firstElementChild.innerText;
   var qualityIndex = qualityList.indexOf(qualityStatus);
-  var output = "";
-  var newQuality = "";
+  // debugger
+  // var output = "";
+  // var newQuality = "";
   if (type ==='up') {
-    newQuality = qualityIndex === qualityList.length-1 ? qualityList[qualityList.length-1] : qualityList[qualityIndex + 1];
-    output = event.target.parentElement.childNodes[5].firstElementChild; 
+    var newQualityIndex = qualityIndex === qualityList.length-1 ? qualityList.length-1 : qualityIndex + 1;
+    // newQuality = qualityIndex === qualityList.length-1 ? qualityList[qualityList.length-1] : qualityList[qualityIndex + 1];
+   var output = event.target.parentElement.childNodes[5].firstElementChild; 
   } else if (type === 'down') {
-    newQuality = qualityIndex === 0 ? qualityList[0] : qualityList[qualityIndex - 1];
-    output = event.target.parentElement.childNodes[5].firstElementChild;  
+    var newQualityIndex = qualityIndex === 0 ? 0 : qualityIndex - 1;    
+    // newQuality = qualityIndex === 0 ? qualityList[0] : qualityList[qualityIndex - 1];
+    var output = event.target.parentElement.childNodes[5].firstElementChild;  
   }
-  output.innerText = newQuality;
-  Idea.prototype.updateQuality(ideaID, newQuality);
+  output.innerText = qualityList[newQualityIndex];
+  Idea.prototype.updateQuality(ideaID, newQualityIndex);
 }
 
 function disableSaveButton() {
