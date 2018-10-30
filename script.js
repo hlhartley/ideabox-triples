@@ -5,7 +5,6 @@ var saveButton = document.querySelector('.save-btn');
 var titleOutput = document.querySelector('.title-output');
 var bodyOutput = document.querySelector('.body-output');
 var cardsContainer = document.querySelector('.cards-container');
-
 var searchBarInput = document.querySelector('.search-bar-input');
 var localStorageObjects = Object.keys(localStorage);
 
@@ -46,12 +45,28 @@ function createInitialCard() {
   updateIdeaArray();
 }
 
-function reinitializeCardsOnReload() {
+function reinitializeCardsOnReload(limit, quality) {
+  // if (quality === '') {
+  //   show all
+  // } else if (quality === 'garbage') {
+  //   objectValue.quality === 0;
+  // }
+
+  // if (limit === '') {
+  //   index <= 10
+  // } else {
+    
+  // }
+
   localStorageObjects.forEach(function(localObject, index) {
     var objectValue = JSON.parse(Object.values(localStorage)[index]);
     createCardTemplate(objectValue.id, objectValue.title, objectValue.body, objectValue.quality);
   })
 }
+
+// if limit = 0, stop at 10
+// pass parameter to reinitialize function
+// show more button limit function to 10 iterations
 
 reinitializeCardsOnReload();
 updateIdeaArray();
@@ -88,23 +103,25 @@ function checkDeleteButton() {
  }
 }
 
+
 function updateVote(type) {
   var qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
   var ideaID = event.target.dataset.ideaid;
   var qualityStatus = event.target.parentElement.childNodes[5].firstElementChild.innerText;
   var qualityIndex = qualityList.indexOf(qualityStatus);
-  // debugger
-  // var output = "";
-  // var newQuality = "";
-  if (type ==='up') {
-    var newQualityIndex = qualityIndex === qualityList.length-1 ? qualityList.length-1 : qualityIndex + 1;
-    // newQuality = qualityIndex === qualityList.length-1 ? qualityList[qualityList.length-1] : qualityList[qualityIndex + 1];
-   var output = event.target.parentElement.childNodes[5].firstElementChild; 
-  } else if (type === 'down') {
-    var newQualityIndex = qualityIndex === 0 ? 0 : qualityIndex - 1;    
-    // newQuality = qualityIndex === 0 ? qualityList[0] : qualityList[qualityIndex - 1];
-    var output = event.target.parentElement.childNodes[5].firstElementChild;  
+
+  if (type ==='up' && (qualityIndex === qualityList.length-1)) {
+    var newQualityIndex = qualityList.length-1; 
+  } else if (type ==='up') {
+   var newQualityIndex = qualityIndex + 1;
   }
+    if (type === 'down' && qualityIndex === 0) {
+    var newQualityIndex = 0; 
+  } else if (type === 'down') { 
+    var newQualityIndex = qualityIndex - 1;    
+  }
+
+  var output = event.target.parentElement.childNodes[5].firstElementChild; 
   output.innerText = qualityList[newQualityIndex];
   Idea.prototype.updateQuality(ideaID, newQualityIndex);
 }
@@ -132,9 +149,40 @@ function filterSearch() {
   for (var i = 0; i < ideaArray.length; i++) {  
     if(ideaArray[i].childNodes[1].childNodes[1].innerText.toLowerCase().indexOf(filterInput) === -1 
       && ideaArray[i].childNodes[1].childNodes[3].innerText.toLowerCase().indexOf(filterInput) === -1) {
-      ideaArray[i].setAttribute("style", "display: none");
+      ideaArray[i].setAttribute('style', 'display: none');
       } else {
-      ideaArray[i].setAttribute("style", "display: block");
+      ideaArray[i].setAttribute('style', 'display: block');
     } 
   }
 }
+
+// var garbageButton = document.querySelector('.garbage-button');
+// var swillButton = document.querySelector('.swill-button');
+// var plausibleButton = document.querySelector('.swill-button');
+// var geniusButton = document.querySelector('.genius-button');
+// var louisaTierButton = document.querySelector('.louisa-tier-button');
+
+// garbageButton.addEventListener('click', filterByQuality);
+// swillButton.addEventListener('click', filterByQuality);
+// plausibleButton.addEventListener('click', filterByQuality);
+// geniusButton.addEventListener('click', filterByQuality);
+// louisaTierButton.addEventListener('click', filterByQuality);
+
+// function updateQualityArray() {
+//   return document.getElementsByClassName('quality-header');
+// }
+
+// function filterByQuality() {
+//  var qualityArray = updateQualityArray();
+//  for (var i = 0; i < qualityArray.length; i++) {
+//   if(qualityArray[i].innerText === 'Garbage' {
+//     qualityArray[i].
+//   } 
+
+//   }
+//  }  
+// }
+
+
+
+
