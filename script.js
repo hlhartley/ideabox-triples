@@ -46,9 +46,19 @@ function createInitialCard() {
   disableSaveButton();
   updateIdeaArray();
 }
+function removeAll() {
 
+  var ideaArray = updateIdeaArray();
+  // console.log(ideaArray)
+  for (var i = ideaArray.length-1; i>=0; i--) {  
+    // debugger
+    // console.log(ideaArray[i]);
+    ideaArray[i].remove();
+    
+  }
+}
+var quality = '';
 function reinitializeCardsOnReload(quality) {
-  console.log(quality);
   // if (quality === '') {
   //   show all
   // } else if (quality === 'garbage') {
@@ -60,12 +70,27 @@ function reinitializeCardsOnReload(quality) {
   // } else {
 
   // }
-
+  removeAll();
+  console.log(quality);
   localStorageObjects.forEach(function(localObject, index) {
+        // debugger
     var objectValue = JSON.parse(Object.values(localStorage)[index]);
-    createCardTemplate(objectValue.id, objectValue.title, objectValue.body, objectValue.quality);
-  })
+
+
+              console.log(objectValue.quality);
+      console.log(quality);
+    if(quality === '') {
+      console.log('all');
+      createCardTemplate(objectValue.id, objectValue.title, objectValue.body, objectValue.quality);
+    } else if (objectValue.quality === quality) {
+      console.log('has quality');
+
+     createCardTemplate(objectValue.id, objectValue.title, objectValue.body, objectValue.quality);    
+   } 
+ })
 }
+
+
 
 // if limit = 0, stop at 10
 // pass parameter to reinitialize function
@@ -73,6 +98,7 @@ function reinitializeCardsOnReload(quality) {
 
 reinitializeCardsOnReload();
 updateIdeaArray();
+
 
 function createCardTemplate(id, title, body, quality) {
   var qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
@@ -161,7 +187,7 @@ function filterSearch() {
 
 var garbageButton = document.querySelector('.garbage-button');
 var swillButton = document.querySelector('.swill-button');
-var plausibleButton = document.querySelector('.swill-button');
+var plausibleButton = document.querySelector('.plausible-button');
 var geniusButton = document.querySelector('.genius-button');
 var louisaTierButton = document.querySelector('.louisa-tier-button');
 var showAllButton = document.querySelector('.show-all-button');
@@ -173,21 +199,45 @@ geniusButton.addEventListener('click', filterByQuality);
 louisaTierButton.addEventListener('click', filterByQuality);
 showAllButton.addEventListener('click', filterByQuality);
 
+
+function removeQualityClass() {
+  for (var i=1; i < event.target.parentElement.childNodes.length; i=i+2) {
+
+    if (event.target.parentElement.childNodes[i].classList.length === 2) {
+      event.target.parentElement.childNodes[i].classList.remove('quality-class');
+    }
+}
+}
+
 function filterByQuality() {
   // debugger
   var classes = event.target.classList;
   // console.log(classes);
   var qualityClass = classes[0];
   if(qualityClass === 'garbage-button') {
+    removeQualityClass();
     var quality = 0;
+    event.target.classList.add('quality-class');
   } else if (qualityClass === 'swill-button') {
+    removeQualityClass();
     var quality = 1;
+    event.target.classList.add('quality-class');
   } else if (qualityClass === 'plausible-button') {
+    removeQualityClass();
     var quality = 2;
+    event.target.classList.add('quality-class');
   } else if (qualityClass === 'genius-button') {
+    removeQualityClass();
     var quality = 3;
+    event.target.classList.add('quality-class');
   } else if (qualityClass === 'louisa-tier-button') {
+    removeQualityClass();
     var quality = 4;
+    event.target.classList.add('quality-class');
+  } else if (qualityClass === 'show-all-button') {
+    removeQualityClass();
+    var quality = '';
+    event.target.classList.add('quality-class');   
   }
   reinitializeCardsOnReload(quality);
 }
