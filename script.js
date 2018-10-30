@@ -8,11 +8,13 @@ var cardsContainer = document.querySelector('.cards-container');
 var searchBarInput = document.querySelector('.search-bar-input');
 var localStorageObjects = Object.keys(localStorage);
 
+
 searchBarInput.addEventListener('keyup', filterSearch);
 saveButton.addEventListener('click', createInitialCard);
 cardsContainer.addEventListener('click', checkDeleteButton);
 titleInput && bodyInput.addEventListener('keyup', disableSaveButton);
 cardsContainer.addEventListener('change', saveUserInput);
+// filterButtons.addEventListener('click', )
 
 function checkEnterKey(type) {
   var key = event.keyCode;
@@ -45,7 +47,8 @@ function createInitialCard() {
   updateIdeaArray();
 }
 
-function reinitializeCardsOnReload(limit, quality) {
+function reinitializeCardsOnReload(quality) {
+  console.log(quality);
   // if (quality === '') {
   //   show all
   // } else if (quality === 'garbage') {
@@ -55,7 +58,7 @@ function reinitializeCardsOnReload(limit, quality) {
   // if (limit === '') {
   //   index <= 10
   // } else {
-    
+
   // }
 
   localStorageObjects.forEach(function(localObject, index) {
@@ -156,17 +159,38 @@ function filterSearch() {
   }
 }
 
-// var garbageButton = document.querySelector('.garbage-button');
-// var swillButton = document.querySelector('.swill-button');
-// var plausibleButton = document.querySelector('.swill-button');
-// var geniusButton = document.querySelector('.genius-button');
-// var louisaTierButton = document.querySelector('.louisa-tier-button');
+var garbageButton = document.querySelector('.garbage-button');
+var swillButton = document.querySelector('.swill-button');
+var plausibleButton = document.querySelector('.swill-button');
+var geniusButton = document.querySelector('.genius-button');
+var louisaTierButton = document.querySelector('.louisa-tier-button');
+var showAllButton = document.querySelector('.show-all-button');
 
-// garbageButton.addEventListener('click', filterByQuality);
-// swillButton.addEventListener('click', filterByQuality);
-// plausibleButton.addEventListener('click', filterByQuality);
-// geniusButton.addEventListener('click', filterByQuality);
-// louisaTierButton.addEventListener('click', filterByQuality);
+garbageButton.addEventListener('click', filterByQuality);
+swillButton.addEventListener('click', filterByQuality);
+plausibleButton.addEventListener('click', filterByQuality);
+geniusButton.addEventListener('click', filterByQuality);
+louisaTierButton.addEventListener('click', filterByQuality);
+showAllButton.addEventListener('click', filterByQuality);
+
+function filterByQuality() {
+  // debugger
+  var classes = event.target.classList;
+  // console.log(classes);
+  var qualityClass = classes[0];
+  if(qualityClass === 'garbage-button') {
+    var quality = 0;
+  } else if (qualityClass === 'swill-button') {
+    var quality = 1;
+  } else if (qualityClass === 'plausible-button') {
+    var quality = 2;
+  } else if (qualityClass === 'genius-button') {
+    var quality = 3;
+  } else if (qualityClass === 'louisa-tier-button') {
+    var quality = 4;
+  }
+  reinitializeCardsOnReload(quality);
+}
 
 // function updateQualityArray() {
 //   return document.getElementsByClassName('quality-header');
@@ -182,6 +206,7 @@ function filterSearch() {
 //   }
 //  }  
 // }
+// 
 
 
 
