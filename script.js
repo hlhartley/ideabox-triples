@@ -1,6 +1,7 @@
 // ** Event Listeners **
 document.querySelector('.search-bar-input').addEventListener('keyup', filterSearch);
-document.querySelector('.title-input') && document.querySelector('.body-input').addEventListener('keyup', disableSaveButton);
+document.querySelector('.title-input').addEventListener('keyup', disableSaveButton);
+document.querySelector('.body-input').addEventListener('keyup', disableSaveButton);
 document.querySelector('.cards-container').addEventListener('click', checkDeleteButton);
 document.querySelector('.cards-container').addEventListener('change', saveUserInput);
 document.querySelector('.save-btn').addEventListener('click', createInitialCard);
