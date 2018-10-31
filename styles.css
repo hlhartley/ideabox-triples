@@ -40,8 +40,8 @@
 
 .search-bar-input {
   border: 2px solid #C2C1C0;
-  border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
+  border-top-left-radius: 6px;
   font-size: 2em;
   height: 42px;
   outline: none;
@@ -175,20 +175,20 @@
 
 .filter-buttons-container {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
-  width: 600px;
+  justify-content: space-between;
   margin: auto;
+  width: 600px;
 }
 
 .filter-buttons {
   background-color: #B2A1B1;
+  border-radius: 6px;
   color: #FFFFFF;
   font-weight: 600;
-  border-radius: 6px;
-  width: 150px;
-  outline: none;
   height: 28px;
+  outline: none;
+  width: 150px;
 }
 
 .swill-button {
@@ -204,12 +204,12 @@
 }
 
 .show-more-features {
-  display: flex;
   background-color: #FBFDFD;
+  display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  width: 100%;
   margin: auto;
+  width: 100%;
 }
 
 .more-less-toggle {
@@ -230,9 +230,9 @@
 
 .show-buttons {
   background-color: #B2A1B1; 
-  width: 100%;
   margin: 8px 0 ;
   outline-color: #B2A1B1;
+  width: 100%;
 }
 
 @media screen and (max-width: 1150px) {
@@ -242,34 +242,39 @@
     justify-content: space-evenly;
     padding: 0px;
   }
+  
   .h1-ideabox {
     margin: 0px;
   }
+
+  .filter-buttons-container,
   .form-container,
   .idea-card,
-  .filter-buttons-container,
   .show-buttons-container {
     width: 460px;
   }
 
   .filter-buttons {
-    width: 40%;
     margin: 0 0 5px 0;
+    width: 40%;
   }
 }
 
 @media screen and (max-width: 600px) {
-  .form-container,
-  .search-container,
-  .idea-card,
   .filter-buttons-container,
+  .form-container,
+  .idea-card,
+  .search-container,
   .show-buttons-container {
     width: 80%;
   }
-  .search-bar-input,
-  .cards-container {
+
+  .cards-container,
+  .search-bar-input {
     width: 100%;
+    }
   }
+
   .h1-ideabox {
     font-size: 10vw;
   }
