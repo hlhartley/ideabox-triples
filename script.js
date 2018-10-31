@@ -80,7 +80,7 @@ function createCardTemplate(id, title, body, quality) {
   </div>
   </section>
   </article>`;
-  cardsContainer.innerHTML = cardsContainer.innerHTML + newCard;
+  cardsContainer.innerHTML = newCard + cardsContainer.innerHTML;
 }
 
 function checkDeleteButton() {
