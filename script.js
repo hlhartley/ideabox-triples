@@ -179,15 +179,11 @@ function showFilteredIdeas(filterQualityNumber) {
 function allIdeas() {
   let tempStorage = Object.assign({}, localStorage);
   delete tempStorage.mostRecentFilter;
-  return Object.values(tempStorage).map(function(ideaString) {
-    return JSON.parse(ideaString);
-  })
+  return Object.values(tempStorage).map(ideaString => JSON.parse(ideaString));
 }
 
 function filteredIdeas(filterQualityNumber) {
-  return allIdeas().filter(function(eachIdea) {
-    return eachIdea.quality == filterQualityNumber;
-  })
+  return allIdeas().filter(eachIdea => eachIdea.quality == filterQualityNumber);
 }
 
 function filterByQuality() {
