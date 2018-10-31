@@ -1,25 +1,28 @@
-var titleInput = document.querySelector('.title-input');
-var bodyInput = document.querySelector('.body-input');
-var saveButton = document.querySelector('.save-btn');
-var cardsContainer = document.querySelector('.cards-container');
-var searchBarInput = document.querySelector('.search-bar-input');
-var showMore = document.querySelector('.show-more-btn');
-var showLess = document.querySelector('.show-less-btn');
+// ** Event Listeners **
+document.querySelector('.search-bar-input').addEventListener('keyup', filterSearch);
+document.querySelector('.title-input').addEventListener('keyup', disableSaveButton);
+document.querySelector('.body-input').addEventListener('keyup', disableSaveButton);
+document.querySelector('.cards-container').addEventListener('click', checkDeleteButton);
+document.querySelector('.cards-container').addEventListener('change', saveUserInput);
+document.querySelector('.save-btn').addEventListener('click', createInitialCard);
+document.querySelector('.garbage-button').addEventListener('click', filterByQuality);
+document.querySelector('.swill-button').addEventListener('click', filterByQuality);
+document.querySelector('.plausible-button').addEventListener('click', filterByQuality);
+document.querySelector('.genius-button').addEventListener('click', filterByQuality);
+document.querySelector('.louisa-tier-button').addEventListener('click', filterByQuality);
+document.querySelector('.show-all-button').addEventListener('click', showAllIdeas);
 
-searchBarInput.addEventListener('keyup', filterSearch);
-saveButton.addEventListener('click', createInitialCard);
-cardsContainer.addEventListener('click', checkDeleteButton);
-titleInput && bodyInput.addEventListener('keyup', disableSaveButton);
-cardsContainer.addEventListener('change', saveUserInput);
-showMore.addEventListener('click', showMoreCards);
-showLess.addEventListener('click', showLessCards);
-
+// ** Functions **
 function showMoreCards() {
- cardsContainer.classList.remove('max-height');
+  cardsContainer.classList.remove('max-height');
+  showMore.classList.toggle('more-less-toggle');
+  showLess.classList.toggle('more-less-toggle');
 }
 
 function showLessCards() {
- cardsContainer.classList.add('max-height');
+  cardsContainer.classList.add('max-height');
+  showMore.classList.toggle('more-less-toggle');
+  showLess.classList.toggle('more-less-toggle');
 }
 
 function checkEnterKey(type) {
@@ -44,6 +47,8 @@ function saveUserInput(text) {
 }
 
 function createInitialCard() {
+   var titleInput = document.querySelector('.title-input');
+  var bodyInput = document.querySelector('.body-input');
   event.preventDefault();
   var idea = new Idea(titleInput.value, bodyInput.value);
   createCardTemplate(idea.id, idea.title, idea.body, idea.quality);
@@ -76,7 +81,7 @@ function createCardTemplate(id, title, body, quality) {
   </div>
   </section>
   </article>`;
-  cardsContainer.innerHTML = cardsContainer.innerHTML + newCard;
+  cardsContainer.innerHTML = newCard + cardsContainer.innerHTML;
 }
 
 function checkDeleteButton() {
@@ -111,6 +116,9 @@ function updateVote(type) {
 }
 
 function disableSaveButton() {
+   var saveButton = document.querySelector('.save-btn');
+  var titleInput = document.querySelector('.title-input');
+var bodyInput = document.querySelector('.body-input');
    if (titleInput.value === '' || bodyInput.value === ''){
     saveButton.disabled = true;
   } else {
@@ -119,6 +127,8 @@ function disableSaveButton() {
 }
 
 function clearInputs() {
+  var titleInput = document.querySelector('.title-input');
+  var bodyInput = document.querySelector('.body-input');
   titleInput.value = '';
   bodyInput.value = '';
 }
@@ -128,6 +138,7 @@ function updateIdeaArray(){
 }
 
 function filterSearch() {
+  var searchBarInput = document.querySelector('.search-bar-input');
   var filterInput = searchBarInput.value.toLowerCase();
   var ideaArray = updateIdeaArray();
   for (var i = 0; i < ideaArray.length; i++) {  
@@ -140,19 +151,6 @@ function filterSearch() {
   }
 }
 
-var garbageButton = document.querySelector('.garbage-button');
-var swillButton = document.querySelector('.swill-button');
-var plausibleButton = document.querySelector('.plausible-button');
-var geniusButton = document.querySelector('.genius-button');
-var louisaTierButton = document.querySelector('.louisa-tier-button');
-var showAllButton = document.querySelector('.show-all-button');
-
-garbageButton.addEventListener('click', filterByQuality);
-swillButton.addEventListener('click', filterByQuality);
-plausibleButton.addEventListener('click', filterByQuality);
-geniusButton.addEventListener('click', filterByQuality);
-louisaTierButton.addEventListener('click', filterByQuality);
-showAllButton.addEventListener('click', showAllIdeas);
 
 function displayIdeas() {
   const mostRecentFilter = localStorage.mostRecentFilter;
@@ -168,6 +166,7 @@ displayIdeas();
 function showAllIdeas() {
 
   removeAll();
+   delete localStorage.mostRecentFilter;
   allIdeas().forEach(function(idea) {
     // This is called destructuring, to minimize so many variable declarations:
     const { id, title, body, quality } = idea;
@@ -228,6 +227,7 @@ function filterByQuality() {
 }
 
 function removeAll() {
+  var cardsContainer = document.querySelector('.cards-container');
   cardsContainer.innerHTML = ''; 
 }
 
