@@ -172,6 +172,7 @@ displayIdeas();
 function showAllIdeas() {
 
   removeAll();
+   delete localStorage.mostRecentFilter;
   allIdeas().forEach(function(idea) {
     // This is called destructuring, to minimize so many variable declarations:
     const { id, title, body, quality } = idea;
