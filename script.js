@@ -106,31 +106,29 @@ function updateVote(type) {
   var ideaID = event.target.dataset.ideaid;
   var qualityStatus = event.target.parentElement.childNodes[5].firstElementChild.innerText;
   var qualityIndex = qualityList.indexOf(qualityStatus);
-
   if (type ==='up' && (qualityIndex === qualityList.length-1)) {
     var newQualityIndex = qualityList.length-1; 
   } else if (type ==='up') {
-   var newQualityIndex = qualityIndex + 1;
+    var newQualityIndex = qualityIndex + 1;
   }
-    if (type === 'down' && qualityIndex === 0) {
+  if (type === 'down' && qualityIndex === 0) {
     var newQualityIndex = 0; 
   } else if (type === 'down') { 
     var newQualityIndex = qualityIndex - 1;    
   }
-
   var output = event.target.parentElement.childNodes[5].firstElementChild; 
   output.innerText = qualityList[newQualityIndex];
   Idea.prototype.updateQuality(ideaID, newQualityIndex);
 }
 
 function disableSaveButton() {
-   var saveButton = document.querySelector('.save-btn');
+  var saveButton = document.querySelector('.save-btn');
   var titleInput = document.querySelector('.title-input');
-var bodyInput = document.querySelector('.body-input');
+  var bodyInput = document.querySelector('.body-input');
    if (titleInput.value === '' || bodyInput.value === ''){
     saveButton.disabled = true;
-  } else {
-    saveButton.disabled = false;
+    } else {
+     saveButton.disabled = false;
   }
 }
 
@@ -159,7 +157,6 @@ function filterSearch() {
   }
 }
 
-
 function displayIdeas() {
   const mostRecentFilter = localStorage.mostRecentFilter;
   if (mostRecentFilter) {
@@ -172,46 +169,25 @@ function displayIdeas() {
 displayIdeas();
 
 function showAllIdeas() {
-
   removeAll();
-   delete localStorage.mostRecentFilter;
+  delete localStorage.mostRecentFilter;
   allIdeas().forEach(function(idea) {
-    // This is called destructuring, to minimize so many variable declarations:
     const { id, title, body, quality } = idea;
-    // var id = idea.id;
-    // var title = idea.title;
-    // var body = idea.body;
-    // var quality = idea.quality;
     createCardTemplate(id, title, body, quality);
   })
 }
 
 function showFilteredIdeas(filterQualityNumber) {
-
   removeAll();
-  // Loop over all the filteredIdeas, and for each one call createCardTemplate()
-  filteredIdeas(filterQualityNumber).forEach(function(idea){
+  filteredIdeas(filterQualityNumber).forEach(function(idea) {
     const { id, title, body, quality } = idea;
     createCardTemplate(id, title, body, quality);
   })
 }
 
-
 function allIdeas() {
-  // Make a copy of localStorage locally so you don't mutate your source of truth (data store)
-  // In JavaScript, arrays and objects are sort of called by reference (techically called by sharing)
-  // while primitive values (string, number, boolean) are called by value
-  // This means that if you assign one object to another variable (let tempStorage = localStorage)
-  // Both these things (localStorage and tempStorage) will point to the same place in memory
-  // So... when you delete or change one, actually both will change
-  // To truly copy localStorage to a new space in memory you can do Object.assign like below.
-  // Or you could use the spread operator:
-  // Now changing tempStorage won't mess with localStorage
   let tempStorage = Object.assign({}, localStorage);
-  // let tempStorage = { ...localStorage };
-  // Important to delete the key value pair for mostRecentFilter (Object.values would have grabbed that)
   delete tempStorage.mostRecentFilter;
-
   return Object.values(tempStorage).map(function(ideaString) {
     return JSON.parse(ideaString);
   })
@@ -225,12 +201,7 @@ function filteredIdeas(filterQualityNumber) {
 
 function filterByQuality() {
   const filterQualityNumber = event.target.dataset.qualitynumber;
-  // Step 0: Save this qualityNumber in localStorage, so you can remember what was the most recent filtered item
   localStorage.setItem('mostRecentFilter', filterQualityNumber);
-  // step 1: clear cards cards-container
-  // removeAll(); 
-  // step 2: filter all ideas by quality
-  // step 3: repopulate cards-container with this filtered quality ideas
   showFilteredIdeas(filterQualityNumber);
 }
 
@@ -238,21 +209,6 @@ function removeAll() {
   var cardsContainer = document.querySelector('.cards-container');
   cardsContainer.innerHTML = ''; 
 }
-
-
-// NOTES:
-// var localStorage = {
-//   2321321: "some idea as an object",
-//   2321321: "some idea as an object",
-//   2321321: "some idea as an object",
-//   2321321: "some idea as an object",
-
-//   'mostRecentFilter': "3",
-//   // Another way to design your local storage
-//   // filteredIdeas: [],
-// }
-
-
 
 
 
