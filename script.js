@@ -11,15 +11,23 @@ document.querySelector('.plausible-button').addEventListener('click', filterByQu
 document.querySelector('.genius-button').addEventListener('click', filterByQuality);
 document.querySelector('.louisa-tier-button').addEventListener('click', filterByQuality);
 document.querySelector('.show-all-button').addEventListener('click', showAllIdeas);
+document.querySelector('.show-less-btn').addEventListener('click', showLessCards);
+document.querySelector('.show-more-btn').addEventListener('click', showMoreCards);
 
 // ** Functions **
 function showMoreCards() {
-  cardsContainer.classList.remove('max-height');
+  var showLess = document.querySelector('.show-less-btn');
+  var showMore = document.querySelector('.show-more-btn');
+  var cardsContainer = document.querySelector('.cards-container');
+  cardsContainer.classList.remove('max-height'); 
   showMore.classList.toggle('more-less-toggle');
   showLess.classList.toggle('more-less-toggle');
 }
 
 function showLessCards() {
+  var showLess = document.querySelector('.show-less-btn');
+  var showMore = document.querySelector('.show-more-btn');
+  var cardsContainer = document.querySelector('.cards-container');
   cardsContainer.classList.add('max-height');
   showMore.classList.toggle('more-less-toggle');
   showLess.classList.toggle('more-less-toggle');
