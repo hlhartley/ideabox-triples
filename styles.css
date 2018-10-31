@@ -172,6 +172,31 @@
   font-weight: 400;
 }
 
+.filter-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 600px;
+  margin: auto;
+}
+
+.filter-buttons {
+  background-color: #B2A1B1;
+  color: #FFFFFF;
+  font-weight: 600;
+  border-radius: 6px;
+  width: 150px;
+}
+
+.swill-button {
+  margin: 0px 50px;
+}
+
+.top-row {
+  margin-bottom: 5px;
+}
+
+
 @media screen and (max-width: 1150px) {
   .header-container {
     flex-direction: column;
@@ -183,15 +208,22 @@
     margin: 0px;
   }
   .form-container,
-  .idea-card  {
+  .idea-card,
+  .filter-buttons-container {
     width: 460px;
+  }
+
+  .filter-buttons {
+    width: 40%;
+    margin: 0 0 5px 0;
   }
 }
 
 @media screen and (max-width: 600px) {
   .form-container,
   .search-container,
-  .idea-card {
+  .idea-card,
+  .filter-buttons-container {
     width: 80%;
   }
   .search-bar-input,
