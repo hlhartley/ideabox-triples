@@ -8,13 +8,11 @@ var cardsContainer = document.querySelector('.cards-container');
 var searchBarInput = document.querySelector('.search-bar-input');
 var localStorageObjects = Object.keys(localStorage);
 
-
 searchBarInput.addEventListener('keyup', filterSearch);
 saveButton.addEventListener('click', createInitialCard);
 cardsContainer.addEventListener('click', checkDeleteButton);
 titleInput && bodyInput.addEventListener('keyup', disableSaveButton);
 cardsContainer.addEventListener('change', saveUserInput);
-// filterButtons.addEventListener('click', )
 
 function checkEnterKey(type) {
   var key = event.keyCode;
@@ -46,57 +44,7 @@ function createInitialCard() {
   disableSaveButton();
   updateIdeaArray();
 }
-function removeAll() {
 
-  var ideaArray = updateIdeaArray();
-  // console.log(ideaArray)
-  for (var i = ideaArray.length-1; i>=0; i--) {  
-    // debugger
-    // console.log(ideaArray[i]);
-    ideaArray[i].remove();
-    
-  }
-}
-var quality = '';
-function reinitializeCardsOnReload(quality) {
-  // if (quality === '') {
-  //   show all
-  // } else if (quality === 'garbage') {
-  //   objectValue.quality === 0;
-  // }
-
-  // if (limit === '') {
-  //   index <= 10
-  // } else {
-
-  // }
-  removeAll();
-  console.log(quality);
-  localStorageObjects.forEach(function(localObject, index) {
-        // debugger
-    var objectValue = JSON.parse(Object.values(localStorage)[index]);
-
-
-              console.log(objectValue.quality);
-      console.log(quality);
-    if(quality === '') {
-      console.log('all');
-      createCardTemplate(objectValue.id, objectValue.title, objectValue.body, objectValue.quality);
-    } else if (objectValue.quality === quality) {
-      console.log('has quality');
-
-     createCardTemplate(objectValue.id, objectValue.title, objectValue.body, objectValue.quality);    
-   } 
- })
-}
-
-
-
-// if limit = 0, stop at 10
-// pass parameter to reinitialize function
-// show more button limit function to 10 iterations
-
-reinitializeCardsOnReload();
 updateIdeaArray();
 
 
@@ -131,7 +79,6 @@ function checkDeleteButton() {
    updateIdeaArray();
  }
 }
-
 
 function updateVote(type) {
   var qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
@@ -200,47 +147,74 @@ louisaTierButton.addEventListener('click', filterByQuality);
 showAllButton.addEventListener('click', filterByQuality);
 
 
-function removeQualityClass() {
-  for (var i=1; i < event.target.parentElement.childNodes.length; i=i+2) {
-
-    if (event.target.parentElement.childNodes[i].classList.length === 2) {
-      event.target.parentElement.childNodes[i].classList.remove('quality-class');
-    }
-}
+function removeAll() {
+  cardsContainer.innerHTML = ''; 
 }
 
 function filterByQuality() {
-  // debugger
-  var classes = event.target.classList;
-  // console.log(classes);
-  var qualityClass = classes[0];
-  if(qualityClass === 'garbage-button') {
-    removeQualityClass();
-    var quality = 0;
-    event.target.classList.add('quality-class');
-  } else if (qualityClass === 'swill-button') {
-    removeQualityClass();
-    var quality = 1;
-    event.target.classList.add('quality-class');
-  } else if (qualityClass === 'plausible-button') {
-    removeQualityClass();
-    var quality = 2;
-    event.target.classList.add('quality-class');
-  } else if (qualityClass === 'genius-button') {
-    removeQualityClass();
-    var quality = 3;
-    event.target.classList.add('quality-class');
-  } else if (qualityClass === 'louisa-tier-button') {
-    removeQualityClass();
-    var quality = 4;
-    event.target.classList.add('quality-class');
-  } else if (qualityClass === 'show-all-button') {
-    removeQualityClass();
-    var quality = '';
-    event.target.classList.add('quality-class');   
-  }
-  reinitializeCardsOnReload(quality);
+  // step 1: clear cards cards-container
+  removeAll();
+  // step 2: filter all ideas by quality(button's inner html)
+  var allIdeas = Object.values(localStorage).map(function(ideaString) {
+    return JSON.parse(ideaString);
+  })
+  var filteredIdeas = allIdeas.filter(function(eachIdea) {
+    return eachIdea.quality == event.target.dataset.qualitynumber;
+  })
+  // step 3: repopulate cards-container with this filtered quality ideas
+  // Loop over all the filteredIdeas (and for each one call createCardTemplate() function)
+  
+  filteredIdeas.forEach(function(eachIdea) {
+    var id = eachIdea.id;
+    var title = eachIdea.title;
+    var body = eachIdea.body;
+    var quality = eachIdea.quality;
+    // This is called destructuring, to minimize so many variable declarations:
+    // const { id, title, body, quality } = eachIdea;
+    createCardTemplate(id, title, body, quality);
+  });
 }
+  
+// function removeQualityClass() {
+//   for (var i=1; i < event.target.parentElement.childNodes.length; i=i+2) {
+//     if (event.target.parentElement.childNodes[i].classList.length === 2) {
+//       event.target.parentElement.childNodes[i].classList.remove('quality-class');
+//     }
+//   }
+// }
+
+// function filterByQuality() {
+//   // debugger
+//   var classes = event.target.classList;
+//   // console.log(classes);
+//   var qualityClass = classes[0];
+//   if(qualityClass === 'garbage-button') {
+//     removeQualityClass();
+//     var quality = 0;
+//     event.target.classList.add('quality-class');
+//   } else if (qualityClass === 'swill-button') {
+//     removeQualityClass();
+//     var quality = 1;
+//     event.target.classList.add('quality-class');
+//   } else if (qualityClass === 'plausible-button') {
+//     removeQualityClass();
+//     var quality = 2;
+//     event.target.classList.add('quality-class');
+//   } else if (qualityClass === 'genius-button') {
+//     removeQualityClass();
+//     var quality = 3;
+//     event.target.classList.add('quality-class');
+//   } else if (qualityClass === 'louisa-tier-button') {
+//     removeQualityClass();
+//     var quality = 4;
+//     event.target.classList.add('quality-class');
+//   } else if (qualityClass === 'show-all-button') {
+//     removeQualityClass();
+//     var quality = '';
+//     event.target.classList.add('quality-class');   
+//   }
+//   reinitializeCardsOnReload(quality);
+// }
 
 // function updateQualityArray() {
 //   return document.getElementsByClassName('quality-header');
