@@ -204,6 +204,10 @@
   flex-direction: column;
 }
 
+.more-less-toggle {
+  display: none;
+}
+
 .max-height {
   max-height: 1728px;
   overflow: hidden;
