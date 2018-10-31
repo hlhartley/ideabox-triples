@@ -220,8 +220,8 @@
 .show-buttons-container {
   display: flex;
   flex-direction: column;
-  width: 600px;
   margin: auto;
+  width: 600px;
 }
 
 .show-buttons {
