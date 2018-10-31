@@ -1,12 +1,12 @@
-var cardQuality = document.querySelector('.card-quality');
+// var cardQuality = document.querySelector('.card-quality');
 var titleInput = document.querySelector('.title-input');
 var bodyInput = document.querySelector('.body-input');
 var saveButton = document.querySelector('.save-btn');
-var titleOutput = document.querySelector('.title-output');
-var bodyOutput = document.querySelector('.body-output');
+// var titleOutput = document.querySelector('.title-output');
+// var bodyOutput = document.querySelector('.body-output');
 var cardsContainer = document.querySelector('.cards-container');
 var searchBarInput = document.querySelector('.search-bar-input');
-var localStorageObjects = Object.keys(localStorage);
+// var localStorageObjects = Object.keys(localStorage);
 
 searchBarInput.addEventListener('keyup', filterSearch);
 saveButton.addEventListener('click', createInitialCard);
@@ -144,93 +144,97 @@ swillButton.addEventListener('click', filterByQuality);
 plausibleButton.addEventListener('click', filterByQuality);
 geniusButton.addEventListener('click', filterByQuality);
 louisaTierButton.addEventListener('click', filterByQuality);
-showAllButton.addEventListener('click', filterByQuality);
+showAllButton.addEventListener('click', showAllIdeas);
 
+function displayIdeas() {
+  const mostRecentFilter = localStorage.mostRecentFilter;
+  if (mostRecentFilter) {
+    showFilteredIdeas(mostRecentFilter);
+  } else {
+    showAllIdeas();
+  }
+}
+
+displayIdeas();
+
+function showAllIdeas() {
+  removeAll();
+  allIdeas().forEach(function(idea) {
+    // This is called destructuring, to minimize so many variable declarations:
+    const { id, title, body, quality } = idea;
+    // var id = idea.id;
+    // var title = idea.title;
+    // var body = idea.body;
+    // var quality = idea.quality;
+    createCardTemplate(id, title, body, quality);
+  })
+}
+
+function showFilteredIdeas(filterQualityNumber) {
+  removeAll();
+  // Loop over all the filteredIdeas, and for each one call createCardTemplate()
+  filteredIdeas(filterQualityNumber).forEach(function(idea){
+    const { id, title, body, quality } = idea;
+    createCardTemplate(id, title, body, quality);
+  })
+}
+
+
+function allIdeas() {
+  // Make a copy of localStorage locally so you don't mutate your source of truth (data store)
+  // In JavaScript, arrays and objects are sort of called by reference (techically called by sharing)
+  // while primitive values (string, number, boolean) are called by value
+  // This means that if you assign one object to another variable (let tempStorage = localStorage)
+  // Both these things (localStorage and tempStorage) will point to the same place in memory
+  // So... when you delete or change one, actually both will change
+  // To truly copy localStorage to a new space in memory you can do Object.assign like below.
+  // Or you could use the spread operator:
+  // Now changing tempStorage won't mess with localStorage
+  let tempStorage = Object.assign({}, localStorage);
+  // let tempStorage = { ...localStorage };
+  // Important to delete the key value pair for mostRecentFilter (Object.values would have grabbed that)
+  delete tempStorage.mostRecentFilter;
+
+  return Object.values(tempStorage).map(function(ideaString) {
+    return JSON.parse(ideaString);
+  })
+}
+
+function filteredIdeas(filterQualityNumber) {
+  return allIdeas().filter(function(eachIdea) {
+    return eachIdea.quality == filterQualityNumber;
+  })
+}
+
+function filterByQuality() {
+  const filterQualityNumber = event.target.dataset.qualitynumber;
+  // Step 0: Save this qualityNumber in localStorage, so you can remember what was the most recent filtered item
+  localStorage.setItem('mostRecentFilter', filterQualityNumber);
+  // step 1: clear cards cards-container
+  // removeAll(); 
+  // step 2: filter all ideas by quality
+  // step 3: repopulate cards-container with this filtered quality ideas
+  showFilteredIdeas(filterQualityNumber);
+}
 
 function removeAll() {
   cardsContainer.innerHTML = ''; 
 }
 
-function filterByQuality() {
-  // step 1: clear cards cards-container
-  removeAll();
-  // step 2: filter all ideas by quality(button's inner html)
-  var allIdeas = Object.values(localStorage).map(function(ideaString) {
-    return JSON.parse(ideaString);
-  })
-  var filteredIdeas = allIdeas.filter(function(eachIdea) {
-    return eachIdea.quality == event.target.dataset.qualitynumber;
-  })
-  // step 3: repopulate cards-container with this filtered quality ideas
-  // Loop over all the filteredIdeas (and for each one call createCardTemplate() function)
-  
-  filteredIdeas.forEach(function(eachIdea) {
-    var id = eachIdea.id;
-    var title = eachIdea.title;
-    var body = eachIdea.body;
-    var quality = eachIdea.quality;
-    // This is called destructuring, to minimize so many variable declarations:
-    // const { id, title, body, quality } = eachIdea;
-    createCardTemplate(id, title, body, quality);
-  });
-}
-  
-// function removeQualityClass() {
-//   for (var i=1; i < event.target.parentElement.childNodes.length; i=i+2) {
-//     if (event.target.parentElement.childNodes[i].classList.length === 2) {
-//       event.target.parentElement.childNodes[i].classList.remove('quality-class');
-//     }
-//   }
+
+// NOTES:
+// var localStorage = {
+//   2321321: "some idea as an object",
+//   2321321: "some idea as an object",
+//   2321321: "some idea as an object",
+//   2321321: "some idea as an object",
+
+//   'mostRecentFilter': "3",
+//   // Another way to design your local storage
+//   // allIdeas: [] 
+//   // filteredIdeas: [],
 // }
 
-// function filterByQuality() {
-//   // debugger
-//   var classes = event.target.classList;
-//   // console.log(classes);
-//   var qualityClass = classes[0];
-//   if(qualityClass === 'garbage-button') {
-//     removeQualityClass();
-//     var quality = 0;
-//     event.target.classList.add('quality-class');
-//   } else if (qualityClass === 'swill-button') {
-//     removeQualityClass();
-//     var quality = 1;
-//     event.target.classList.add('quality-class');
-//   } else if (qualityClass === 'plausible-button') {
-//     removeQualityClass();
-//     var quality = 2;
-//     event.target.classList.add('quality-class');
-//   } else if (qualityClass === 'genius-button') {
-//     removeQualityClass();
-//     var quality = 3;
-//     event.target.classList.add('quality-class');
-//   } else if (qualityClass === 'louisa-tier-button') {
-//     removeQualityClass();
-//     var quality = 4;
-//     event.target.classList.add('quality-class');
-//   } else if (qualityClass === 'show-all-button') {
-//     removeQualityClass();
-//     var quality = '';
-//     event.target.classList.add('quality-class');   
-//   }
-//   reinitializeCardsOnReload(quality);
-// }
-
-// function updateQualityArray() {
-//   return document.getElementsByClassName('quality-header');
-// }
-
-// function filterByQuality() {
-//  var qualityArray = updateQualityArray();
-//  for (var i = 0; i < qualityArray.length; i++) {
-//   if(qualityArray[i].innerText === 'Garbage' {
-//     qualityArray[i].
-//   } 
-
-//   }
-//  }  
-// }
-// 
 
 
 
