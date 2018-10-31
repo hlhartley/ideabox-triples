@@ -1,10 +1,9 @@
-// ** Event Listeners **
-document.querySelector('.search-bar-input').addEventListener('keyup', filterSearch);
+document.querySelector('.save-btn').addEventListener('click', createInitialCard);
+document.querySelector('.cards-container').addEventListener('change', saveUserInput);
 document.querySelector('.title-input').addEventListener('keyup', disableSaveButton);
 document.querySelector('.body-input').addEventListener('keyup', disableSaveButton);
 document.querySelector('.cards-container').addEventListener('click', checkDeleteButton);
-document.querySelector('.cards-container').addEventListener('change', saveUserInput);
-document.querySelector('.save-btn').addEventListener('click', createInitialCard);
+document.querySelector('.search-bar-input').addEventListener('keyup', filterSearch);
 document.querySelector('.garbage-button').addEventListener('click', filterByQuality);
 document.querySelector('.swill-button').addEventListener('click', filterByQuality);
 document.querySelector('.plausible-button').addEventListener('click', filterByQuality);
@@ -14,39 +13,8 @@ document.querySelector('.show-all-button').addEventListener('click', showAllIdea
 document.querySelector('.show-more-btn').addEventListener('click', showMoreLessCards);
 document.querySelector('.show-less-btn').addEventListener('click', showMoreLessCards);
 
-// ** Functions **
-function showMoreLessCards() {
-  var showLess = document.querySelector('.show-less-btn');
-  var showMore = document.querySelector('.show-more-btn');
-  var cardsContainer = document.querySelector('.cards-container');
-  event.target === showMore ? cardsContainer.classList.remove('max-height') : cardsContainer.classList.add('max-height');
-  showMore.classList.toggle('more-less-toggle');
-  showLess.classList.toggle('more-less-toggle');
-}
-
-function checkEnterKey(type) {
-  var key = event.keyCode;
-  if (key === 13) { 
-    event.preventDefault();
-    saveUserInput(type);
-  }
-}
-
-function saveUserInput(text) {
-  if (text === 'title') {
-    var changedElement = 'title';
-    var changedTextID = event.target.dataset.titleid;
-    var changedTextValue = event.target.innerText;
-  } else if (text === 'body') {
-    var changedElement = 'body';
-    var changedTextID = event.target.dataset.bodyid;
-    var changedTextValue = event.target.innerText;
-  }
-  Idea.prototype.updateSelf(changedElement, changedTextID, changedTextValue);
-}
-
 function createInitialCard() {
-   var titleInput = document.querySelector('.title-input');
+  var titleInput = document.querySelector('.title-input');
   var bodyInput = document.querySelector('.body-input');
   event.preventDefault();
   var idea = new Idea(titleInput.value, bodyInput.value);
@@ -56,9 +24,6 @@ function createInitialCard() {
   disableSaveButton();
   updateIdeaArray();
 }
-
-// updateIdeaArray();
-
 
 function createCardTemplate(id, title, body, quality) {
   var qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
@@ -83,13 +48,47 @@ function createCardTemplate(id, title, body, quality) {
   cardsContainer.innerHTML = newCard + cardsContainer.innerHTML;
 }
 
-function checkDeleteButton() {
-  if (event.target.classList.contains('delete-btn')) {
-   event.target.closest('article').remove();
-   var cardToDeleteId = event.target.closest('article').id;
-   Idea.prototype.deleteFromStorage(cardToDeleteId);
-   updateIdeaArray();
- }
+function clearInputs() {
+  var titleInput = document.querySelector('.title-input');
+  var bodyInput = document.querySelector('.body-input');
+  titleInput.value = '';
+  bodyInput.value = '';
+}
+
+function disableSaveButton() {
+  var saveButton = document.querySelector('.save-btn');
+  var titleInput = document.querySelector('.title-input');
+  var bodyInput = document.querySelector('.body-input');
+   if (titleInput.value === '' || bodyInput.value === ''){
+    saveButton.disabled = true;
+    } else {
+     saveButton.disabled = false;
+  }
+}
+
+function updateIdeaArray(){
+  return document.getElementsByClassName('idea-card');
+}
+
+function saveUserInput(text) {
+  if (text === 'title') {
+    var changedElement = 'title';
+    var changedTextID = event.target.dataset.titleid;
+    var changedTextValue = event.target.innerText;
+  } else if (text === 'body') {
+    var changedElement = 'body';
+    var changedTextID = event.target.dataset.bodyid;
+    var changedTextValue = event.target.innerText;
+  }
+  Idea.prototype.updateSelf(changedElement, changedTextID, changedTextValue);
+}
+
+function checkEnterKey(type) {
+  var key = event.keyCode;
+  if (key === 13) { 
+    event.preventDefault();
+    saveUserInput(type);
+  }
 }
 
 function updateVote(type) {
@@ -112,26 +111,13 @@ function updateVote(type) {
   Idea.prototype.updateQuality(ideaID, newQualityIndex);
 }
 
-function disableSaveButton() {
-  var saveButton = document.querySelector('.save-btn');
-  var titleInput = document.querySelector('.title-input');
-  var bodyInput = document.querySelector('.body-input');
-   if (titleInput.value === '' || bodyInput.value === ''){
-    saveButton.disabled = true;
-    } else {
-     saveButton.disabled = false;
-  }
-}
-
-function clearInputs() {
-  var titleInput = document.querySelector('.title-input');
-  var bodyInput = document.querySelector('.body-input');
-  titleInput.value = '';
-  bodyInput.value = '';
-}
-
-function updateIdeaArray(){
-  return document.getElementsByClassName('idea-card');
+function checkDeleteButton() {
+  if (event.target.classList.contains('delete-btn')) {
+   event.target.closest('article').remove();
+   var cardToDeleteId = event.target.closest('article').id;
+   Idea.prototype.deleteFromStorage(cardToDeleteId);
+   updateIdeaArray();
+ }
 }
 
 function filterSearch() {
@@ -148,24 +134,19 @@ function filterSearch() {
   }
 }
 
-function displayIdeas() {
-  const mostRecentFilter = localStorage.mostRecentFilter;
-  if (mostRecentFilter) {
-    showFilteredIdeas(mostRecentFilter);
-  } else {
-    showAllIdeas();
-  }
+function showMoreLessCards() {
+  var showLess = document.querySelector('.show-less-btn');
+  var showMore = document.querySelector('.show-more-btn');
+  var cardsContainer = document.querySelector('.cards-container');
+  event.target === showMore ? cardsContainer.classList.remove('max-height') : cardsContainer.classList.add('max-height');
+  showMore.classList.toggle('more-less-toggle');
+  showLess.classList.toggle('more-less-toggle');
 }
 
-displayIdeas();
-
-function showAllIdeas() {
-  removeAll();
-  delete localStorage.mostRecentFilter;
-  allIdeas().forEach(function(idea) {
-    const { id, title, body, quality } = idea;
-    createCardTemplate(id, title, body, quality);
-  })
+function filterByQuality() {
+  const filterQualityNumber = event.target.dataset.qualitynumber;
+  localStorage.setItem('mostRecentFilter', filterQualityNumber);
+  showFilteredIdeas(filterQualityNumber);
 }
 
 function showFilteredIdeas(filterQualityNumber) {
@@ -176,26 +157,37 @@ function showFilteredIdeas(filterQualityNumber) {
   })
 }
 
-function allIdeas() {
-  let tempStorage = Object.assign({}, localStorage);
-  delete tempStorage.mostRecentFilter;
-  return Object.values(tempStorage).map(ideaString => JSON.parse(ideaString));
+function removeAll() {
+  var cardsContainer = document.querySelector('.cards-container');
+  cardsContainer.innerHTML = ''; 
 }
 
 function filteredIdeas(filterQualityNumber) {
   return allIdeas().filter(eachIdea => eachIdea.quality == filterQualityNumber);
 }
 
-function filterByQuality() {
-  const filterQualityNumber = event.target.dataset.qualitynumber;
-  localStorage.setItem('mostRecentFilter', filterQualityNumber);
-  showFilteredIdeas(filterQualityNumber);
+function allIdeas() {
+  let tempStorage = Object.assign({}, localStorage);
+  delete tempStorage.mostRecentFilter;
+  return Object.values(tempStorage).map(ideaString => JSON.parse(ideaString));
 }
 
-function removeAll() {
-  var cardsContainer = document.querySelector('.cards-container');
-  cardsContainer.innerHTML = ''; 
+function showAllIdeas() {
+  removeAll();
+  delete localStorage.mostRecentFilter;
+  allIdeas().forEach(function(idea) {
+    const { id, title, body, quality } = idea;
+    createCardTemplate(id, title, body, quality);
+  })
 }
 
+function displayIdeas() {
+  const mostRecentFilter = localStorage.mostRecentFilter;
+  if (mostRecentFilter) {
+    showFilteredIdeas(mostRecentFilter);
+  } else {
+    showAllIdeas();
+  }
+}
 
-
+displayIdeas();
