@@ -16,8 +16,8 @@ document.querySelector('.show-less-btn').addEventListener('click', showMoreLessC
 
 // ** Functions **
 function showMoreLessCards() {
-  var showLess = document.querySelector('.show-less-btn');
-  var showMore = document.querySelector('.show-more-btn');
+  let showLess = document.querySelector('.show-less-btn');
+  let showMore = document.querySelector('.show-more-btn');
   var cardsContainer = document.querySelector('.cards-container');
   event.target === showMore ? cardsContainer.classList.remove('max-height') : cardsContainer.classList.add('max-height');
   showMore.classList.toggle('more-less-toggle');
@@ -25,7 +25,7 @@ function showMoreLessCards() {
 }
 
 function checkEnterKey(type) {
-  var key = event.keyCode;
+  const key = event.keyCode;
   if (key === 13) { 
     event.preventDefault();
     saveUserInput(type);
@@ -34,21 +34,21 @@ function checkEnterKey(type) {
 
 function saveUserInput(text) {
   if (text === 'title') {
-    var changedElement = 'title';
-    var changedTextID = event.target.dataset.titleid;
-    var changedTextValue = event.target.innerText;
+    let changedElement = 'title';
+    let changedTextID = event.target.dataset.titleid;
+    let changedTextValue = event.target.innerText;
   } else if (text === 'body') {
-    var changedElement = 'body';
-    var changedTextID = event.target.dataset.bodyid;
-    var changedTextValue = event.target.innerText;
+    let changedElement = 'body';
+    let changedTextID = event.target.dataset.bodyid;
+    let changedTextValue = event.target.innerText;
   }
   Idea.prototype.updateSelf(changedElement, changedTextID, changedTextValue);
 }
 
 function createInitialCard() {
-   var titleInput = document.querySelector('.title-input');
-  var bodyInput = document.querySelector('.body-input');
   event.preventDefault();
+  var bodyInput = document.querySelector('.body-input');
+  var titleInput = document.querySelector('.title-input');
   var idea = new Idea(titleInput.value, bodyInput.value);
   createCardTemplate(idea.id, idea.title, idea.body, idea.quality);
   idea.saveToStorage();
@@ -63,8 +63,8 @@ function createInitialCard() {
 function createCardTemplate(id, title, body, quality) {
   var qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
   var cardsContainer = document.querySelector('.cards-container');
-  var stringQuality = qualityList[quality];
-  var newCard = `<article id="${id}" class="idea-card">
+  let stringQuality = qualityList[quality];
+  let newCard = `<article id="${id}" class="idea-card">
   <section class="output-container">
   <h1 onkeydown="checkEnterKey('title')" onfocusout="saveUserInput('title')" data-titleID="${id}" class="title-output" contenteditable="true">${title}</h1> 
   <p onkeydown="checkEnterKey('body')" onfocusout="saveUserInput('body')" data-bodyID="${id}" class="body-output" contenteditable="true">${body}</p>
@@ -86,7 +86,7 @@ function createCardTemplate(id, title, body, quality) {
 function checkDeleteButton() {
   if (event.target.classList.contains('delete-btn')) {
    event.target.closest('article').remove();
-   var cardToDeleteId = event.target.closest('article').id;
+   const cardToDeleteId = event.target.closest('article').id;
    Idea.prototype.deleteFromStorage(cardToDeleteId);
    updateIdeaArray();
  }
@@ -95,25 +95,25 @@ function checkDeleteButton() {
 function updateVote(type) {
   var qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
   var ideaID = event.target.dataset.ideaid;
-  var qualityStatus = event.target.parentElement.childNodes[5].firstElementChild.innerText;
-  var qualityIndex = qualityList.indexOf(qualityStatus);
+  let qualityStatus = event.target.parentElement.childNodes[5].firstElementChild.innerText;
+  let qualityIndex = qualityList.indexOf(qualityStatus);
   if (type ==='up' && (qualityIndex === qualityList.length-1)) {
-    var newQualityIndex = qualityList.length-1; 
+    let newQualityIndex = qualityList.length-1; 
   } else if (type ==='up') {
-    var newQualityIndex = qualityIndex + 1;
+    let newQualityIndex = qualityIndex + 1;
   }
   if (type === 'down' && qualityIndex === 0) {
-    var newQualityIndex = 0; 
+    let newQualityIndex = 0; 
   } else if (type === 'down') { 
-    var newQualityIndex = qualityIndex - 1;    
+    let newQualityIndex = qualityIndex - 1;    
   }
-  var output = event.target.parentElement.childNodes[5].firstElementChild; 
+  let output = event.target.parentElement.childNodes[5].firstElementChild; 
   output.innerText = qualityList[newQualityIndex];
   Idea.prototype.updateQuality(ideaID, newQualityIndex);
 }
 
 function disableSaveButton() {
-  var saveButton = document.querySelector('.save-btn');
+  let saveButton = document.querySelector('.save-btn');
   var titleInput = document.querySelector('.title-input');
   var bodyInput = document.querySelector('.body-input');
    if (titleInput.value === '' || bodyInput.value === ''){
@@ -135,9 +135,9 @@ function updateIdeaArray(){
 }
 
 function filterSearch() {
-  var searchBarInput = document.querySelector('.search-bar-input');
-  var filterInput = searchBarInput.value.toLowerCase();
-  var ideaArray = updateIdeaArray();
+  const searchBarInput = document.querySelector('.search-bar-input');
+  let filterInput = searchBarInput.value.toLowerCase();
+  let ideaArray = updateIdeaArray();
   for (var i = 0; i < ideaArray.length; i++) {  
     if(ideaArray[i].childNodes[1].childNodes[1].innerText.toLowerCase().indexOf(filterInput) === -1 
       && ideaArray[i].childNodes[1].childNodes[3].innerText.toLowerCase().indexOf(filterInput) === -1) {
