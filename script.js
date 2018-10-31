@@ -15,11 +15,15 @@ showMore.addEventListener('click', showMoreCards);
 showLess.addEventListener('click', showLessCards);
 
 function showMoreCards() {
- cardsContainer.classList.remove('max-height');
+  cardsContainer.classList.remove('max-height');
+  showMore.classList.toggle('more-less-toggle');
+  showLess.classList.toggle('more-less-toggle');
 }
 
 function showLessCards() {
- cardsContainer.classList.add('max-height');
+  cardsContainer.classList.add('max-height');
+  showMore.classList.toggle('more-less-toggle');
+  showLess.classList.toggle('more-less-toggle');
 }
 
 function checkEnterKey(type) {
