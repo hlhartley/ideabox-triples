@@ -3,12 +3,24 @@ var bodyInput = document.querySelector('.body-input');
 var saveButton = document.querySelector('.save-btn');
 var cardsContainer = document.querySelector('.cards-container');
 var searchBarInput = document.querySelector('.search-bar-input');
+var showMore = document.querySelector('.show-more-btn');
+var showLess = document.querySelector('.show-less-btn');
 
 searchBarInput.addEventListener('keyup', filterSearch);
 saveButton.addEventListener('click', createInitialCard);
 cardsContainer.addEventListener('click', checkDeleteButton);
 titleInput && bodyInput.addEventListener('keyup', disableSaveButton);
 cardsContainer.addEventListener('change', saveUserInput);
+showMore.addEventListener('click', showMoreCards);
+showLess.addEventListener('click', showLessCards);
+
+function showMoreCards() {
+ cardsContainer.classList.remove('max-height');
+}
+
+function showLessCards() {
+ cardsContainer.classList.add('max-height');
+}
 
 function checkEnterKey(type) {
   var key = event.keyCode;

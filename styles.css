@@ -196,6 +196,18 @@
   margin-bottom: 5px;
 }
 
+.show-more-features {
+  width: 600px;
+  margin: auto;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+
+.max-height {
+  max-height: 1728px;
+  overflow: hidden;
+}
 
 @media screen and (max-width: 1150px) {
   .header-container {
