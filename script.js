@@ -13,12 +13,18 @@ document.querySelector('.show-all-button').addEventListener('click', showAllIdea
 
 // ** Functions **
 function showMoreCards() {
+  var cardsContainer = document.querySelector('.cards-container');
+  var showMore = document.querySelector('.show-more-btn');
+  var showLess = document.querySelector('.show-less-btn');
   cardsContainer.classList.remove('max-height');
   showMore.classList.toggle('more-less-toggle');
   showLess.classList.toggle('more-less-toggle');
 }
 
 function showLessCards() {
+  var cardsContainer = document.querySelector('.cards-container');
+  var showMore = document.querySelector('.show-more-btn');
+  var showLess = document.querySelector('.show-less-btn');
   cardsContainer.classList.add('max-height');
   showMore.classList.toggle('more-less-toggle');
   showLess.classList.toggle('more-less-toggle');
@@ -46,7 +52,7 @@ function saveUserInput(text) {
 }
 
 function createInitialCard() {
-   var titleInput = document.querySelector('.title-input');
+  var titleInput = document.querySelector('.title-input');
   var bodyInput = document.querySelector('.body-input');
   event.preventDefault();
   var idea = new Idea(titleInput.value, bodyInput.value);
@@ -115,9 +121,9 @@ function updateVote(type) {
 }
 
 function disableSaveButton() {
-   var saveButton = document.querySelector('.save-btn');
+  var saveButton = document.querySelector('.save-btn');
   var titleInput = document.querySelector('.title-input');
-var bodyInput = document.querySelector('.body-input');
+  var bodyInput = document.querySelector('.body-input');
    if (titleInput.value === '' || bodyInput.value === ''){
     saveButton.disabled = true;
   } else {
@@ -163,9 +169,8 @@ function displayIdeas() {
 displayIdeas();
 
 function showAllIdeas() {
-
   removeAll();
-   delete localStorage.mostRecentFilter;
+  delete localStorage.mostRecentFilter;
   allIdeas().forEach(function(idea) {
     // This is called destructuring, to minimize so many variable declarations:
     const { id, title, body, quality } = idea;
