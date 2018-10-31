@@ -1,12 +1,8 @@
-// var cardQuality = document.querySelector('.card-quality');
 var titleInput = document.querySelector('.title-input');
 var bodyInput = document.querySelector('.body-input');
 var saveButton = document.querySelector('.save-btn');
-// var titleOutput = document.querySelector('.title-output');
-// var bodyOutput = document.querySelector('.body-output');
 var cardsContainer = document.querySelector('.cards-container');
 var searchBarInput = document.querySelector('.search-bar-input');
-// var localStorageObjects = Object.keys(localStorage);
 
 searchBarInput.addEventListener('keyup', filterSearch);
 saveButton.addEventListener('click', createInitialCard);
@@ -158,6 +154,7 @@ function displayIdeas() {
 displayIdeas();
 
 function showAllIdeas() {
+
   removeAll();
   allIdeas().forEach(function(idea) {
     // This is called destructuring, to minimize so many variable declarations:
@@ -171,6 +168,7 @@ function showAllIdeas() {
 }
 
 function showFilteredIdeas(filterQualityNumber) {
+
   removeAll();
   // Loop over all the filteredIdeas, and for each one call createCardTemplate()
   filteredIdeas(filterQualityNumber).forEach(function(idea){
@@ -231,7 +229,6 @@ function removeAll() {
 
 //   'mostRecentFilter': "3",
 //   // Another way to design your local storage
-//   // allIdeas: [] 
 //   // filteredIdeas: [],
 // }
 
