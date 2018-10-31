@@ -103,7 +103,8 @@
   font-size: 2rem;
 }
 
-.save-btn {
+.save-btn,
+.show-buttons {
   background-color: #6E646B;
   border-radius: 6px;
   color: #FFFFFF;
@@ -186,6 +187,8 @@
   font-weight: 600;
   border-radius: 6px;
   width: 150px;
+  outline: none;
+  height: 28px;
 }
 
 .swill-button {
@@ -193,20 +196,39 @@
 }
 
 .top-row {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+.bottom-row {
+  margin-bottom: 20px;
 }
 
 .show-more-features {
-  width: 600px;
   margin: auto;
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
+  width: 100%;
+  background-color: #FBFDFD;
 }
 
 .max-height {
   max-height: 1728px;
   overflow: hidden;
+}
+
+.show-buttons-container {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  margin: auto;
+}
+
+.show-buttons {
+  background-color: #B2A1B1; 
+  width: 100%;
+  margin: 8px 0 ;
+  outline-color: #B2A1B1;
 }
 
 @media screen and (max-width: 1150px) {
@@ -216,12 +238,13 @@
     justify-content: space-evenly;
     padding: 0px;
   }
-  .h1-idea {
+  .h1-ideabox {
     margin: 0px;
   }
   .form-container,
   .idea-card,
-  .filter-buttons-container {
+  .filter-buttons-container,
+  .show-buttons-container {
     width: 460px;
   }
 
@@ -235,14 +258,15 @@
   .form-container,
   .search-container,
   .idea-card,
-  .filter-buttons-container {
+  .filter-buttons-container,
+  .show-buttons-container {
     width: 80%;
   }
   .search-bar-input,
   .cards-container {
     width: 100%;
   }
-  .h1-idea {
+  .h1-ideabox {
     font-size: 10vw;
   }
 }
