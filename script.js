@@ -72,12 +72,12 @@ function updateIdeaArray(){
   return document.getElementsByClassName('idea-card');
 }
 
-function saveUserInput(text) {
-  if (text === 'title') {
+function saveUserInput(elem) {
+  if (elem === 'title') {
     var changedElement = 'title';
     var changedTextID = event.target.dataset.titleid;
     var changedTextValue = event.target.innerText;
-  } else if (text === 'body') {
+  } else if (elem === 'body') {
     var changedElement = 'body';
     var changedTextID = event.target.dataset.bodyid;
     var changedTextValue = event.target.innerText;
