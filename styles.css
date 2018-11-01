@@ -140,8 +140,10 @@
   width: 600px;
 }
 
-.title-output {
+.title-output,
+.body-output {
   color: #6E646B;
+  outline: none;
 }
 
 .quality-icons {
