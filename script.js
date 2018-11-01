@@ -14,10 +14,10 @@ document.querySelector('.show-more-btn').addEventListener('click', showMoreLessC
 document.querySelector('.show-less-btn').addEventListener('click', showMoreLessCards);
 
 function createInitialCard() {
-  var titleInput = document.querySelector('.title-input');
-  var bodyInput = document.querySelector('.body-input');
   event.preventDefault();
-  var idea = new Idea(titleInput.value, bodyInput.value);
+  const titleInput = document.querySelector('.title-input');
+  const bodyInput = document.querySelector('.body-input');
+  const idea = new Idea(titleInput.value, bodyInput.value);
   createCardTemplate(idea.id, idea.title, idea.body, idea.quality);
   idea.saveToStorage();
   clearInputs();
@@ -26,43 +26,45 @@ function createInitialCard() {
 }
 
 function createCardTemplate(id, title, body, quality) {
-  var qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
-  var cardsContainer = document.querySelector('.cards-container');
-  var stringQuality = qualityList[quality];
-  var newCard = `<article id="${id}" class="idea-card">
-  <section class="output-container">
-  <h1 onkeydown="checkEnterKey('title')" onfocusout="saveUserInput('title')" data-titleID="${id}" class="title-output" contenteditable="true">${title}</h1> 
-  <p onkeydown="checkEnterKey('body')" onfocusout="saveUserInput('body')" data-bodyID="${id}" class="body-output" contenteditable="true">${body}</p>
-  </section>
-  <section class="quality-container">
-  <div class="left-quality-container">
-  <img onclick="updateVote('down')" data-ideaID="${id}" class="quality-icons downvote-btn" src="images/downvote.svg">
-  <img onclick="updateVote('up')" data-ideaID="${id}" class="quality-icons upvote-btn" src="images/upvote.svg">
-  <h2 class="quality-header">Quality: <span class="quality-actual">${stringQuality}<span></h2>
-  </div>
-  <div class="right-quality-container">
-  <img class="quality-icons delete-btn" src="images/delete.svg">
-  </div>
-  </section>
+  const qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
+  const cardsContainer = document.querySelector('.cards-container');
+  const stringQuality = qualityList[quality];
+  const newCard = 
+  `<article id="${id}" class="idea-card">
+    <section class="output-container">
+      <h1 onkeydown="checkEnterKey('title')" onfocusout="saveUserInput('title')" data-titleID="${id}" class="title-output" contenteditable="true">${title}</h1> 
+      <p onkeydown="checkEnterKey('body')" onfocusout="saveUserInput('body')" data-bodyID="${id}" class="body-output" contenteditable="true">${body}</p>
+    </section>
+    <section class="quality-container">
+      <div class="left-quality-container">
+        <img onclick="updateVote('down')" data-ideaID="${id}" class="quality-icons downvote-btn" src="images/downvote.svg">
+        <img onclick="updateVote('up')" data-ideaID="${id}" class="quality-icons upvote-btn" src="images/upvote.svg">
+      <h2 class="quality-header">Quality: <span class="quality-actual">${stringQuality}<span></h2>
+      </div>
+      <div class="right-quality-container">
+        <img class="quality-icons delete-btn" src="images/delete.svg">
+      </div>
+    </section>
   </article>`;
   cardsContainer.innerHTML = newCard + cardsContainer.innerHTML;
 }
 
 function clearInputs() {
-  var titleInput = document.querySelector('.title-input');
-  var bodyInput = document.querySelector('.body-input');
+  const titleInput = document.querySelector('.title-input');
+  const bodyInput = document.querySelector('.body-input');
   titleInput.value = '';
   bodyInput.value = '';
 }
 
 function disableSaveButton() {
-  var saveButton = document.querySelector('.save-btn');
-  var titleInput = document.querySelector('.title-input');
-  var bodyInput = document.querySelector('.body-input');
-   if (titleInput.value === '' || bodyInput.value === ''){
+  const saveButton = document.querySelector('.save-btn');
+  const titleInput = document.querySelector('.title-input');
+  const bodyInput = document.querySelector('.body-input');
+
+  if (titleInput.value === '' || bodyInput.value === '') {
     saveButton.disabled = true;
-    } else {
-     saveButton.disabled = false;
+  } else {
+    saveButton.disabled = false;
   }
 }
 
@@ -84,7 +86,7 @@ function saveUserInput(text) {
 }
 
 function checkEnterKey(type) {
-  var key = event.keyCode;
+  const key = event.keyCode;
   if (key === 13) { 
     event.preventDefault();
     saveUserInput(type);
@@ -92,21 +94,23 @@ function checkEnterKey(type) {
 }
 
 function updateVote(type) {
-  var qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
-  var ideaID = event.target.dataset.ideaid;
-  var qualityStatus = event.target.parentElement.childNodes[5].firstElementChild.innerText;
-  var qualityIndex = qualityList.indexOf(qualityStatus);
+  const qualityList = ['Garbage','Swill','Plausible','Genius','Louisa Tier'];
+  const ideaID = event.target.dataset.ideaid;
+  const qualityStatus = event.target.parentElement.childNodes[5].firstElementChild.innerText;
+  const output = event.target.parentElement.childNodes[5].firstElementChild; 
+  const qualityIndex = qualityList.indexOf(qualityStatus);
+  let newQualityIndex;
+
   if (type ==='up' && (qualityIndex === qualityList.length-1)) {
-    var newQualityIndex = qualityList.length-1; 
+    newQualityIndex = qualityList.length-1; 
   } else if (type ==='up') {
-    var newQualityIndex = qualityIndex + 1;
+    newQualityIndex = qualityIndex + 1;
   }
   if (type === 'down' && qualityIndex === 0) {
-    var newQualityIndex = 0; 
+    newQualityIndex = 0; 
   } else if (type === 'down') { 
-    var newQualityIndex = qualityIndex - 1;    
+    newQualityIndex = qualityIndex - 1;    
   }
-  var output = event.target.parentElement.childNodes[5].firstElementChild; 
   output.innerText = qualityList[newQualityIndex];
   Idea.prototype.updateQuality(ideaID, newQualityIndex);
 }
@@ -124,6 +128,7 @@ function filterSearch() {
   var searchBarInput = document.querySelector('.search-bar-input');
   var filterInput = searchBarInput.value.toLowerCase();
   var ideaArray = updateIdeaArray();
+
   for (var i = 0; i < ideaArray.length; i++) {  
     if(ideaArray[i].childNodes[1].childNodes[1].innerText.toLowerCase().indexOf(filterInput) === -1 
       && ideaArray[i].childNodes[1].childNodes[3].innerText.toLowerCase().indexOf(filterInput) === -1) {
@@ -135,9 +140,10 @@ function filterSearch() {
 }
 
 function showMoreLessCards() {
-  var showLess = document.querySelector('.show-less-btn');
-  var showMore = document.querySelector('.show-more-btn');
-  var cardsContainer = document.querySelector('.cards-container');
+  const showLess = document.querySelector('.show-less-btn');
+  const showMore = document.querySelector('.show-more-btn');
+  const cardsContainer = document.querySelector('.cards-container');
+
   event.target === showMore ? cardsContainer.classList.remove('max-height') : cardsContainer.classList.add('max-height');
   showMore.classList.toggle('more-less-toggle');
   showLess.classList.toggle('more-less-toggle');
@@ -158,7 +164,7 @@ function showFilteredIdeas(filterQualityNumber) {
 }
 
 function removeAll() {
-  var cardsContainer = document.querySelector('.cards-container');
+  const cardsContainer = document.querySelector('.cards-container');
   cardsContainer.innerHTML = ''; 
 }
 
