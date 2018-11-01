@@ -5,8 +5,8 @@ Link: [public link](https://hlhartley.github.io/ideabox-triples/)
 David Cisneros, Matt Foxwell, & Heather Hartley
 
 ## Project Objectives:
-- Creating a resonsive client-side app
-- Implementing client-side data and storing it via localStorage
+- Creating a responsive client-side app
+- Implementing client-side data and storing it in localStorage
 - Retrieving data from localStorage
 - Data should stay on page upon reload
 - Switching between two data models including both a data model (with a Class) and a dom model
