@@ -1,5 +1,5 @@
 # Ideabox-triples
-[public link](https://hlhartley.github.io/ideabox-triples/)
+Link: [public link](https://hlhartley.github.io/ideabox-triples/)
 
 ## Group Members:
 David Cisneros, Matt Foxwell, & Heather Hartley
