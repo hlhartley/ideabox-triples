@@ -14,12 +14,12 @@ class Idea {
     localStorage.removeItem(cardToDeleteId);
   }
 
-  updateSelf(changedElement, changedTextID, text) {
+  updateSelf(changedElement, changedTextID, changedTextValue) {
    var idea = JSON.parse(localStorage.getItem(changedTextID));
    if (changedElement === 'title') {
-    idea.title = text;
+    idea.title = changedTextValue;
   } else if (changedElement === 'body') {
-    idea.body = text;
+    idea.body = changedTextValue;
   } 
   localStorage.setItem(changedTextID, JSON.stringify(idea));
 }
